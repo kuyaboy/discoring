@@ -34,7 +34,7 @@ class MongoDBClient:
         if self.client:
             self.client.close()
             print("Connection to MongoDB closed.")
-
+            
 
 if __name__ == "__main__":
     uri = os.getenv('MONGODB_URI')
