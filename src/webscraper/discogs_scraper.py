@@ -53,6 +53,9 @@ class DiscogsScraper:
         
         except WebDriverException as e:
             print(f"Error occurred: {e}")
+    
+    def get_by_release_id(self):
+                
             
     def delete_cookies(self):
         self.driver.delete_all_cookies()
