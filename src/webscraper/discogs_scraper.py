@@ -17,7 +17,6 @@ class DiscogsScraper:
     def __init__(self):
         options = Options()
         options.add_argument("--headless")
-        options.add_argument("")
         self.driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()),options=options)
     
     def login(self):
