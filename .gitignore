@@ -1,2 +1,3 @@
 .env
 wanted_records.json
+__pycache__

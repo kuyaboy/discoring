@@ -1,7 +1,6 @@
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from dotenv import load_dotenv
-import os
 
 load_dotenv()
 
@@ -34,13 +33,7 @@ class MongoDBClient:
         if self.client:
             self.client.close()
             print("Connection to MongoDB closed.")
-            
 
-if __name__ == "__main__":
-    uri = os.getenv('MONGODB_URI')
-    
-    mongodb_client = MongoDBClient(uri=uri)
-    mongodb_client.connect()
 
     
 
