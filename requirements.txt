@@ -1,5 +1,3 @@
-requests
+discogs_client
 pymongo
-dotenv
-os
 selenium
