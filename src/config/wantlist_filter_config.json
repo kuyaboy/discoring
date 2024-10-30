@@ -1,12 +1,10 @@
 [
     {   
-        "year" : 1999,
-        "artist" : "Saukrates",
+        "artists" : "Saukrates",
         "title" : "The Underground Tapes"
     },
 
     {
-        "year" : 1998,
         "artist" : "Nightbreed",
         "title" : "2 Roads Out the Ghetto"
     }
