@@ -70,38 +70,37 @@ class xmlParser:
     def get_listing_id(self, file_name):
         xml_file = self.load_xml_file(file_name)
         
-        listing_id = re.findall(r"/sell/item/(\d+)", xml_file)
+        listing_id = re.findall(r'/sell/item/(\d+)', xml_file)
         
         if listing_id != None:
-            print(f"Found {len(listing_id)} instances for listing id")
+            print(f'Found {len(listing_id)} instances for listing id')
             return listing_id # Return the matched string
         else:
-            print("No Matches for listing_id")
+            print('No Matches for listing_id')
             return None
     
     def get_release_id(self, file_name):
         xml_file = self.load_xml_file(file_name)
         
-        release_id = re.findall(r"/release/(\d+)[-\w]+", xml_file)
+        release_id = re.findall(r'/release/(\d+)[-\w]+', xml_file)
         
         if release_id != None:
-            print(f"Found {len(release_id)} instances for release id")
+            print(f'Found {len(release_id)} instances for release id')
             return release_id  # Return the matched string
         else:
-            print("No Matches for release_id")
+            print('No Matches for release_id')
             return None
     
-    def get_item_price(self, file_name):
-        xml_file = self.load_xml_file(file_name)
+    # def get_item_price(self, file_name):
+    #     xml_file = self.load_xml_file(file_name)
+    #     release_id = re.findall(r"span class="price" data-currency=[A-Z]{3} data-pricevalue=(\d+)>£23.99</span>(\d+)[-\w]+", xml_file)
         
-        release_id = re.findall(r"span class="price" data-currency=[A-Z]{3} data-pricevalue=(\d+)>£23.99</span>(\d+)[-\w]+", xml_file)
-        
-        if release_id != None:
-            print(f"Found {len(release_id)} instances for release id")
-            return release_id  # Return the matched string
-        else:
-            print("No Matches for release_id")
-            return None
+    #     if release_id != None:
+    #         print(f"Found {len(release_id)} instances for release id")
+    #         return release_id  # Return the matched string
+    #     else:
+    #         print("No Matches for release_id")
+    #         return None
         
 
 
