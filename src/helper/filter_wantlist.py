@@ -28,5 +28,5 @@ def wantlist_filter():
                         'artist': details.get('artist'),
                         **details
                     })
-
+                    
     return filtered_wantlist
