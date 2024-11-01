@@ -1,4 +1,5 @@
 import os
+import time
 import json
 
 from selenium import webdriver
@@ -10,24 +11,24 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from dotenv import load_dotenv
-from lxml import etree,html
+from lxml import etree, html
 
 load_dotenv()
 
 class DiscogsScraper:
     def __init__(self):
         options = Options()
-        options.add_argument('--headless')
+        #options.add_argument('--headless')
         options.add_argument('--ignore-certificate-errors')
         options.add_argument('--ignore-ssl-errors')
-        self.driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
+        self.driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
     
     def login(self):
         try:
             self.driver.get('https://www.discogs.com/login')
             
-            element_username = self.driver.find_element(By.ID,'username')
-            element_password = self.driver.find_element(By.NAME,'password')
+            element_username = self.driver.find_element(By.ID, 'username')
+            element_password = self.driver.find_element(By.NAME, 'password')
             
             element_username.send_keys(os.getenv('DISCOGS_USERNAME'))
             element_password.send_keys(os.getenv('DISCOGS_PASSWORD'))
@@ -35,89 +36,100 @@ class DiscogsScraper:
             continue_button = self.driver.find_element(By.CLASS_NAME, 'ca0df71c7')
             continue_button.click()
             
-            print(f'Successfully login into Discogs as user: {os.getenv('DISCOGS_USERNAME')}')
+            print(f"Successfully logged in to Discogs as user: {os.getenv('DISCOGS_USERNAME')}")
         
         except WebDriverException as e:
-            print(f'Error occurred: {e}')
+            print(f'Error occurred during login: {e}')
             
-    def get_wantlister_xml(self): # requires login method
+    def get_wantlister_xml(self):  # requires login method
+        self.login()
         
         try:
             self.driver.get('https://wantlister.discogs.com')
             
-            accept_cookies_button = self.driver.find_elements(By.XPATH, '//*[@id='onetrust-accept-btn-handler']')
+            accept_cookies_button = self.driver.find_elements(By.XPATH, "//*[@id='onetrust-accept-btn-handler']")
             
             if accept_cookies_button:
-                WebDriverWait(self.driver, 10).until(
-                    EC.element_to_be_clickable((By.XPATH, '//*[@id='onetrust-accept-btn-handler']'))
+                WebDriverWait(self.driver, 5).until(
+                    EC.element_to_be_clickable((By.XPATH, "//*[@id='onetrust-accept-btn-handler']"))
                 ).click()
             
             else:
-                WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.TAG_NAME, 'body'))) # Wait for the page to load and the desired element to be visible
-                    
+                WebDriverWait(self.driver, 10).until(
+                    EC.visibility_of_element_located((By.TAG_NAME, 'body')))
+                
                 parser = etree.HTMLParser()
-                    
                 html_page = self.driver.page_source
-                    
                 html_root = etree.fromstring(html_page, parser)
-                    
-                html_xml_parsed = etree.tostring(html_root, pretty_print = True, method = 'html')
-                    
-                with open('src\\data\\raw\\wantlister.xml', 'wb') as out: 
+                html_xml_parsed = etree.tostring(html_root, pretty_print=True, method='html', xml_declaration = True)
+                
+                with open('src\\data\\raw\\wantlister.xml', 'wb') as out:
                     out.write(html_xml_parsed)
-                        
-                print('Successfully generated XML-file from Discogs 'Wantlister' page')
+                    
+                print("Successfully generated XML file from Discogs 'Wantlister' page")
         
         except WebDriverException as e:
             print(f'Error occurred: {e}')
     
-    def get_by_release_id(self, wantlist): # does not require login method
-        
+    def get_by_release_id(self, wantlist):
         try:
             
-            self.driver.implicitly_wait(3)
-
-            self.driver.get(f'https://www.discogs.com/sell/release/{release_id}?ev=rb')
-            
-            accept_cookies_button = self.driver.find_elements(By.XPATH, '//*[@id='onetrust-accept-btn-handler']')
-            
-            if accept_cookies_button:
-                WebDriverWait(self.driver, 10).until(
-                    EC.element_to_be_clickable((By.XPATH, '//*[@id='onetrust-accept-btn-handler']'))
-                ).click()
+            for release in wantlist:
+                release_id = release['release_id']
+                title = release['title']
                 
-            else:
+                self.driver.get(f'https://www.discogs.com/sell/release/{release_id}?ev=rb')
                 
-                WebDriverWait(self.driver, 15).until(EC.element_to_be_clickable((By.XPATH,'//*[@id='onetrust-accept-btn-handler']'))).click() # Wait for the page to load and the desired element to be visible
-            
+                accept_cookies_button = self.driver.find_elements(By.XPATH, "//*[@id='onetrust-accept-btn-handler']")
+                
+                if accept_cookies_button:
+                    time.sleep(5)
+                    
+                    WebDriverWait(self.driver, 10).until(
+                        EC.element_to_be_clickable((By.XPATH, "//*[@id='onetrust-accept-btn-handler']"))
+                    ).click()
+                else:
+                    WebDriverWait(self.driver, 15).until(
+                        EC.visibility_of_element_located((By.ID, 'pjax_container')))
+                    
                 discogs_html_content = self.driver.page_source
-            
                 discogs_doc = html.fromstring(discogs_html_content)
-            
-                discogs_content = discogs_doc.xpath('//*[@id='pjax_container']')
-            
+                discogs_content = discogs_doc.xpath("//*[@id='pjax_container']/table")
+                    
                 if not discogs_content:
                     print('Something went wrong: XML file is empty')
-                
                 else:
-                    with open(f'src\\data\\raw\\31612672.xml', 'wb') as out: 
-                        out.write(etree.tostring(discogs_content[0], pretty_print=True, encoding='utf-8', xml_declaration=True))
+                    with open(f'src\\data\\raw\\{release_id}.xml', 'wb') as out:
+                        out.write(etree.tostring(discogs_content[0], pretty_print=True, encoding='utf-8'))
+                        
+                    print(f'Successfully scraped marketplace for {title}')
                     
-                    print('Successfully scraped marketplace of release with id: ')
+                time.sleep(5)
             
         except WebDriverException as e:
             print(f'Error occurred: {e}')
-                
+                            
     def delete_cookies(self):
         self.driver.delete_all_cookies()
     
     def quit(self):
         self.driver.quit()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
+    
+    wantlist_path = os.path.join(os.getcwd(), 'src', 'data', 'filtered_wantlist', 'filtered_wantlist.json')
+    try:
+        with open(wantlist_path, 'r') as file:
+            wantlist = json.load(file)
+    except FileNotFoundError:
+        print("Error: wantlist.json file not found.")
+        wantlist = []
+
     scraper = DiscogsScraper()
-    scraper.login()
-    scraper.get_wantlister_xml()
-    scraper.get_by_release_id()
-    scraper.delete_cookies()
-    scraper.quit()
+    try:
+        scraper.get_by_release_id(wantlist)
+
+    finally:
+        scraper.delete_cookies()
+        scraper.quit()
