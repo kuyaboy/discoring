@@ -1,5 +1,5 @@
-from lxml import etree, html
 import os
+import regex as re
 
 """
 What do I need?:
@@ -56,20 +56,62 @@ What do I need?:
 - check if still available (otherwise delete)
 
 """
-
-
-class XMLParser:
-    def __init__(self, xml_string):
-        self.root = etree.fromstring(xml_string)
-        xml_string =
+class xmlParser:
+    def __init__(self):
+            self.root = None
 
     def load_xml_file(self, file_name):
         current_dir = os.getcwd()
-        # Construct the path to the XML file
         file_path = os.path.join(current_dir, 'src', 'data', 'raw', file_name)
 
         with open(file_path, 'r', encoding='utf-8') as file:
             return file.read()  # Return the content of the file
-
-if __name__ == "__main__":
     
+    def get_listing_id(self, file_name):
+        xml_file = self.load_xml_file(file_name)
+        
+        listing_id = re.findall(r'/sell/item/(\d+)', xml_file)
+        
+        if listing_id != None:
+            print(f'Found {len(listing_id)} instances for listing id')
+            return listing_id # Return the matched string
+        else:
+            print('No Matches for listing_id')
+            return None
+    
+    def get_release_id(self, file_name):
+        xml_file = self.load_xml_file(file_name)
+        
+        release_id = re.findall(r'/release/(\d+)[-\w]+', xml_file)
+        
+        if release_id != None:
+            print(f'Found {len(release_id)} instances for release id')
+            return release_id  # Return the matched string
+        else:
+            print('No Matches for release_id')
+            return None
+    
+    # def get_item_price(self, file_name):
+    #     xml_file = self.load_xml_file(file_name)
+    #     release_id = re.findall(r"span class="price" data-currency=[A-Z]{3} data-pricevalue=(\d+)>£23.99</span>(\d+)[-\w]+", xml_file)
+        
+    #     if release_id != None:
+    #         print(f"Found {len(release_id)} instances for release id")
+    #         return release_id  # Return the matched string
+    #     else:
+    #         print("No Matches for release_id")
+    #         return None
+        
+
+
+
+
+
+
+test = xmlParser()
+
+xml = test.load_xml_file("31612672.xml")
+print(xml)
+
+test.get_listing_id("31612672.xml")
+test.get_release_id("31612672.xml")
