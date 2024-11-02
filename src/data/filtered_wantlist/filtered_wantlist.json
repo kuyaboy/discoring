@@ -1,15 +1,27 @@
 [
    {
-      "release_id": 409250,
-      "title": "The Underground Tapes",
+      "release_id": 225817,
+      "title": "The Underground Tapes Vol. 1",
       "artist": [
          "Saukrates"
       ],
-      "label": [
-         "Capitol Hill",
-         "Ill Vibe Records"
+      "year": 1999,
+      "format": [
+         {
+            "name": "Vinyl",
+            "qty": "1",
+            "descriptions": [
+               "12\"",
+               "33 \u2153 RPM",
+               "EP",
+               "Limited Edition"
+            ]
+         }
       ],
-      "year": 1999
+      "label": [
+         "Serious Entertainment, Inc.",
+         "Capitol Hill Music Inc."
+      ]
    },
    {
       "release_id": 419069,
@@ -17,9 +29,39 @@
       "artist": [
          "Nightbreed (4)"
       ],
+      "year": 1998,
+      "format": [
+         {
+            "name": "Vinyl",
+            "qty": "1",
+            "descriptions": [
+               "12\"",
+               "33 \u2153 RPM"
+            ]
+         }
+      ],
       "label": [
          "Fortress Entertainment"
+      ]
+   },
+   {
+      "release_id": 1164485,
+      "title": "Underground Kingz",
+      "artist": [
+         "UGK"
       ],
-      "year": 1998
+      "year": 2007,
+      "format": [
+         {
+            "name": "CD",
+            "qty": "2",
+            "descriptions": [
+               "Album"
+            ]
+         }
+      ],
+      "label": [
+         "Jive"
+      ]
    }
 ]

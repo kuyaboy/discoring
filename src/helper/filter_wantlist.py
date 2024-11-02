@@ -1,11 +1,8 @@
 import os
 import json
-
 from src.discogsclient.wantlist import DiscogsWantlistClient
 
-
 def wantlist_filter():
-    
     discogs_client = DiscogsWantlistClient()
     wantlist = discogs_client.get_wantlist()
 
@@ -18,15 +15,22 @@ def wantlist_filter():
     for filter_record in filter_criteria:
         artist_query = filter_record.get('artist', '').lower()
         title = filter_record.get('title')
+        year = filter_record.get('year')
+        format_query = filter_record.get('format', '').lower()
 
         for release_id, details in wantlist.items():
-            if title == details.get('title'):
+            if title == details.get('title') and year == details.get('year'):
                 if any(artist_query in artist_name.lower() for artist_name in details.get('artist', [])):
-                    filtered_wantlist.append({
-                        'release_id': release_id,
-                        'title': details.get('title'),
-                        'artist': details.get('artist'),
-                        **details
-                    })
+                    format_names = [formats.get('name', '') for formats in details.get('format', [])]
+                    if any(format_query in formats.lower() for formats in format_names):
+                        filtered_wantlist.append({
+                            'release_id': release_id,
+                            'title': details.get('title'),
+                            'genre': details.get('genre'),
+                            'artist': details.get('artist'),
+                            'year': details.get('year'),
+                            'format': format_names,
+                            **details
+                        })
                     
     return filtered_wantlist
