@@ -40,8 +40,3 @@ class DiscogsWantlistClient:
                          for record in wantlist}
         
         return wantlist_dict
-
-d = DiscogsWantlistClient()
-w = d.get_wantlist()
-
-print(w)
