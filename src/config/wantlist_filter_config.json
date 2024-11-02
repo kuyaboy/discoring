@@ -1,11 +1,15 @@
 [
     {   
         "artist" : "Saukrates",
-        "title" : "The Underground Tapes"
+        "title" : "The Underground Tapes Vol. 1",
+        "year" : 1999,
+        "format" : "Vinyl"
     },
 
     {
         "artist" : "Nightbreed",
-        "title" : "2 Roads Out The Ghetto"
+        "title" : "2 Roads Out The Ghetto",
+        "year" : 1998,
+        "format" : "Vinyl"
     }
 ]

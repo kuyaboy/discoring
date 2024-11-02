@@ -1,61 +1,6 @@
 import os
 import regex as re
 
-"""
-What do I need?:
-
-- listing id --> <td class="item_description">
-                <strong>
-        <a href="/sell/item/3257360867" class="item_description_title" data-followable="true">Ikee - Sky`s Da Limit / Rock On (12", RE)</a>
-
-- ReleaseID --> "@id": "https://www.discogs.com/release/31612672-Ikee-Skys-Da-Limit-Rock-On"
-
-- Name --> "releaseOf": {
-  "@type": "MusicAlbum",
-  "name": "Sky`s Da Limit / Rock On",
-
-- Media Condition --> <p class="item_condition">
-        <span class="mplabel condition-label-desktop">
-            Media Condition:
-        </span>
-        <span class="mplabel condition-label-mobile">Media:</span>
-                
-    <span>
-        Mint (M)
-
-                    <span class="has-tooltip" role="note" tabindex="0">
-                <i class="icon icon-info-circle muted" role="img" aria-hidden="true"/>
-                <span class="tooltip multi-line-tooltip sr-only" role="tooltip">
-                    <span class="tooltip-inner">
-                                                Absolutely perfect in every way. Certainly never been played. Should be used sparingly as a grade.            
-                    </span>
-                </span>
-            </span>
-            </span>
-
-- Sleeve Condition --> <span class="item_sleeve_condition">Mint (M)</span>
-
-- Seller name --> data-seller-username="bruceforsight"
-
-- Seller Rating --> <span class="star_rating" alt="bruceforsight rating 5.0 stars out of 5" role="img" aria-label="bruceforsight rating 5.0 out of 5"><i role="img" aria-hidden="true" class="icon icon-star"/><i role="img" aria-hidden="true" class="icon icon-star"/><i role="img" aria-hidden="true" class="icon icon-star"/><i role="img" aria-hidden="true" class="icon icon-star"/><i role="img" aria-hidden="true" class="icon icon-star"/></span> 
-    <strong>100.0%</strong><span>,</span>    <a href="/sell/seller_feedback/bruceforsight" target="_top" class="section_link">
-        1,051 ratings    </a>
-            </li>
-
-- Ships From --> <li><span class="mplabel">Ships From:</span>United Kingdom</li>
-
-- Item Price --> <span class="price" data-currency="GBP" data-pricevalue="23.99">£23.99</span>
-
-- Shipping Price 
-        <span class="hide_mobile item_shipping">
-        +£7.50
-                <i class="icon icon-truck" role="img"/>
-                <button class="show-shipping-methods hide_mobile" data-seller-username="bruceforsight" data-seller-id="238461">shipping</button>
-
-- added to database
-- check if still available (otherwise delete)
-
-"""
 class xmlParser:
     def __init__(self):
             self.root = None
@@ -70,37 +15,128 @@ class xmlParser:
     def get_listing_id(self, file_name):
         xml_file = self.load_xml_file(file_name)
         
-        listing_id = re.findall(r'/sell/item/(\d+)', xml_file)
+        # Define the regex pattern to find the release IDs and titles
+        listing_pattern = r'<td class="item_description">.*?<a href="/sell/item/(\d+)"[^>]*>'
         
-        if listing_id != None:
-            print(f'Found {len(listing_id)} instances for listing id')
-            return listing_id # Return the matched string
+        # Find all matches in the XML content
+        listing_ids = re.findall(listing_pattern, xml_file, re.DOTALL)
+        
+        if listing_ids:
+            print(f'Found {len(listing_ids)} instances for listing ID')
+            return listing_ids
         else:
-            print('No Matches for listing_id')
+            print('No Matches for release_id')
             return None
-    
+        
     def get_release_id(self, file_name):
         xml_file = self.load_xml_file(file_name)
         
-        release_id = re.findall(r'/release/(\d+)[-\w]+', xml_file)
+        # Define the regex pattern to find the release IDs and titles
+        release_pattern = r'<a href="/release/(\d+)-[^"]*" class="item_release_link hide_mobile">View Release Page<\/a>'
         
-        if release_id != None:
-            print(f'Found {len(release_id)} instances for release id')
-            return release_id  # Return the matched string
+        # Find all matches in the XML content
+        release_ids = re.findall(release_pattern, xml_file, re.DOTALL)
+        
+        if release_ids:
+            print(f'Found {len(release_ids)} instances for release ID')
+            return release_ids
         else:
             print('No Matches for release_id')
             return None
     
-    # def get_item_price(self, file_name):
-    #     xml_file = self.load_xml_file(file_name)
-    #     release_id = re.findall(r"span class="price" data-currency=[A-Z]{3} data-pricevalue=(\d+)>£23.99</span>(\d+)[-\w]+", xml_file)
+    def get_artist_name(self, file_name):
         
-    #     if release_id != None:
-    #         print(f"Found {len(release_id)} instances for release id")
-    #         return release_id  # Return the matched string
-    #     else:
-    #         print("No Matches for release_id")
-    #         return None
+        xml_file = self.load_xml_file(file_name)
+        
+        artist_name_pattern = r'<td class="item_description">.*?<a href="/sell/item/\d+"[^>]*>(.*?) - (.*?) \(.*?\)<\/a>'
+        
+        artist_matches = re.findall(artist_name_pattern, xml_file, re.DOTALL)
+        
+        artist_names = [match[0].strip() for match in artist_matches]
+        
+        if artist_names:
+            print(f'Found {len(artist_names)} artist names')
+            return artist_names
+        else:
+            print('No Matches for artist names')
+            return None
+            
+    def get_record_name(self, file_name):
+
+        xml_file = self.load_xml_file(file_name)
+        
+        record_name_pattern = r'<td class="item_description">.*?<a href="/sell/item/\d+"[^>]*>(.*?) - (.*?) \(.*?\)<\/a>'
+        
+        record_matches = re.findall(record_name_pattern, xml_file, re.DOTALL)
+        
+        record_names = [match[1].strip() for match in record_matches]
+        
+        if record_names:
+            print(f'Found {len(record_names)} artist names')
+            return record_names
+        else:
+            print('No Matches for artist names')
+            return None
+
+    def get_media_condition(self, file_name):
+        xml_file = self.load_xml_file(file_name)
+        
+        media_condition_pattern = r'<span>\s*Media Condition:\s*<\/span>\s*<span>(.*?)<\/span>'
+
+        media_condition = re.search(media_condition_pattern, xml_file, re.DOTALL)
+
+        if media_condition:
+            media_condition = media_condition.group(1).strip()  # Get the captured group and remove whitespace
+            print(f'Found media condition: {media_condition}')
+            return media_condition  # Return the media condition
+        else:
+            print('No Matches for media condition')
+            return None 
+
+    def get_sleeve_condition(self, file_name):        
+        return None
+    
+    def get_currency(self, file_name):
+        xml_file = self.load_xml_file(file_name)
+        currency_pattern = r'[A-Z]{3}'
+        currency_match = re.findall(currency_pattern, xml_file)
+
+        if currency_match:
+            currency = currency_match[::2] # remove every second entry since it contains desktop + mobile listings
+            print(f'Found currency instances: {len(currency)}')
+            return currency
+        else:
+            print('No Matches for currency')
+            return None
+       
+    def get_item_price(self, file_name):
+        xml_file = self.load_xml_file(file_name)
+        
+        item_price_pattern = r'data-pricevalue="(\d+\.\d+)"'
+        item_price_matches = re.findall(item_price_pattern, xml_file) 
+        if item_price_matches:
+            item_price = item_price_matches[::2] # remove every second entry since it contains desktop + mobile listings
+            print(f'Found item_price instances: {len(item_price)}')
+            return item_price
+        else:
+            print('No Matches found for Item Price')
+            return None
+    
+    
+    def get_seller_name(self, file_name):        
+        return None
+
+    def get_seller_rating(self, file_name):        
+        return None
+    
+    def get_shipping_origin(self, file_name):        
+        return None
+    
+    def get_shippin_rate(self, file_name):        
+        return None
+    
+    def get_current_date(self, file_name):        
+        return None
         
 
 
@@ -109,9 +145,9 @@ class xmlParser:
 
 
 test = xmlParser()
-
-xml = test.load_xml_file("31612672.xml")
-print(xml)
-
-test.get_listing_id("31612672.xml")
-test.get_release_id("31612672.xml")
+test.get_listing_id("409250.xml")
+test.get_release_id("409250.xml")
+test.get_record_name("409250.xml")
+test.get_item_price("409250.xml")
+test.get_media_condition("409250.xml")
+test.get_currency("409250.xml")
