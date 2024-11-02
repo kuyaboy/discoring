@@ -41,36 +41,6 @@ class DiscogsScraper:
         except WebDriverException as e:
             print(f'Error occurred during login: {e}')
             
-    def get_wantlister_xml(self):  # requires login method
-        self.login()
-        
-        try:
-            self.driver.get('https://wantlister.discogs.com')
-            
-            accept_cookies_button = self.driver.find_elements(By.XPATH, "//*[@id='onetrust-accept-btn-handler']")
-            
-            if accept_cookies_button:
-                WebDriverWait(self.driver, 5).until(
-                    EC.element_to_be_clickable((By.XPATH, "//*[@id='onetrust-accept-btn-handler']"))
-                ).click()
-            
-            else:
-                WebDriverWait(self.driver, 10).until(
-                    EC.visibility_of_element_located((By.TAG_NAME, 'body')))
-                
-                parser = etree.HTMLParser()
-                html_page = self.driver.page_source
-                html_root = etree.fromstring(html_page, parser)
-                html_xml_parsed = etree.tostring(html_root, pretty_print=True, method='html', xml_declaration = True)
-                
-                with open('src\\data\\raw\\wantlister.xml', 'wb') as out:
-                    out.write(html_xml_parsed)
-                    
-                print("Successfully generated XML file from Discogs 'Wantlister' page")
-        
-        except WebDriverException as e:
-            print(f'Error occurred: {e}')
-    
     def get_by_release_id(self, wantlist):
         try:
             

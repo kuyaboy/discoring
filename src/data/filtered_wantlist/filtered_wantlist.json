@@ -43,5 +43,25 @@
       "label": [
          "Fortress Entertainment"
       ]
+   },
+   {
+      "release_id": 1164485,
+      "title": "Underground Kingz",
+      "artist": [
+         "UGK"
+      ],
+      "year": 2007,
+      "format": [
+         {
+            "name": "CD",
+            "qty": "2",
+            "descriptions": [
+               "Album"
+            ]
+         }
+      ],
+      "label": [
+         "Jive"
+      ]
    }
 ]

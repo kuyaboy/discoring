@@ -11,5 +11,12 @@
         "title" : "2 Roads Out The Ghetto",
         "year" : 1998,
         "format" : "Vinyl"
+    },
+
+    {
+        "artist" : "UGK",
+        "title" : "Underground Kingz",
+        "year" : 2007,
+        "format" : "CD"
     }
 ]
