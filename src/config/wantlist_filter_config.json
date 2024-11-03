@@ -18,5 +18,13 @@
         "title" : "Underground Kingz",
         "year" : 2007,
         "format" : "CD"
+    },
+
+    {
+        "artist" : "Big L",
+        "title" : "MVP",
+        "year" : 1995,
+        "format" : "Vinyl"
     }
 ]
+
