@@ -69,17 +69,21 @@ class xmlParser:
             return None
 
     def get_media_condition(self, file_name):
+        # Load the XML file content
         xml_file = self.load_xml_file(file_name)
         
-        media_condition_pattern = r'<span>\s*Media Condition:\s*<\/span>\s*<span>(.*?)<\/span>'
+        media_condition_pattern = r'<span>\s*([\w\s\(\)+\-]+)\s*<span'
         media_condition_matches = re.findall(media_condition_pattern, xml_file, re.DOTALL)
+        
+        media_condition = []
 
-        if media_condition_matches: 
-            print(f'Found media condition: {media_condition_matches}')
-            return media_condition_matches
+        if media_condition_matches:
+            for condition in media_condition_matches:
+                media_condition.append(condition.strip())
+        
+            print(media_condition)
         else:
-            print('No Matches for media condition')
-            return None 
+            print("Media Condition not found.")
 
     def get_sleeve_condition(self, file_name):   
         
@@ -182,7 +186,7 @@ class xmlParser:
         for _ in unavailable_matches:
             shipping_prices.append("Unavailable in your country")
 
-        return shipping_prices  # Return the list of shipping prices 
+        return shipping_prices
         
 
 
@@ -191,12 +195,5 @@ class xmlParser:
 
 
 test = xmlParser()
-test.get_listing_id("409250.xml")
-test.get_release_id("409250.xml")
-test.get_record_name("409250.xml")
-test.get_item_price("409250.xml")
-test.get_currency("1164485.xml")
-test.get_seller_name("1164485.xml")
-test.get_seller_rating("1164485.xml")
-test.get_media_condition("409250.xml")
-test.get_shipping_price("225817.xml")
+test.get_media_condition("225817.xml")
+test.get_release_id("225817.xml")
