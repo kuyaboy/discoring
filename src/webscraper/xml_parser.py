@@ -1,9 +1,11 @@
 import os
 import regex as re
 
+from src.helper.filter_duplicate_prices import filter_unique_prices
+
 class xmlParser:
     def __init__(self):
-            self.root = None
+        self.root = None
 
     def load_xml_file(self, file_name):
         current_dir = os.getcwd()
@@ -11,93 +13,96 @@ class xmlParser:
 
         with open(file_path, 'r', encoding='utf-8') as file:
             return file.read()
-    
+
     def get_listing_id(self, file_name):
         xml_file = self.load_xml_file(file_name)
-        
+
         listing_pattern = r'<td class="item_description">.*?<a href="/sell/item/(\d+)"[^>]*>'
         listing_ids = re.findall(listing_pattern, xml_file, re.DOTALL)
-        
+
         if listing_ids:
             print(f'Found {len(listing_ids)} instances for listing ID')
             return listing_ids
         else:
             print('No Matches for release_id')
-            return None
-        
+            return []
+
     def get_release_id(self, file_name):
         xml_file = self.load_xml_file(file_name)
 
         release_pattern = r'<a href="/release/(\d+)-[^"]*" class="item_release_link hide_mobile">View Release Page<\/a>'
         release_ids = re.findall(release_pattern, xml_file, re.DOTALL)
-        
+
         if release_ids:
             print(f'Found {len(release_ids)} instances for release ID')
             return release_ids
         else:
             print('No Matches for release_id')
-            return None
-    
+            return []
+
     def get_artist_name(self, file_name):
-        
         xml_file = self.load_xml_file(file_name)
-        
+
         artist_name_pattern = r'<td class="item_description">.*?<a href="/sell/item/\d+"[^>]*>(.*?) - (.*?) \(.*?\)<\/a>'
         artist_matches = re.findall(artist_name_pattern, xml_file, re.DOTALL)
         artist_names = [match[0].strip() for match in artist_matches]
-        
+
         if artist_names:
             print(f'Found {len(artist_names)} artist names')
             return artist_names
         else:
             print('No Matches for artist names')
-            return None
-            
-    def get_record_name(self, file_name):
+            return []
 
+    def get_record_name(self, file_name):
         xml_file = self.load_xml_file(file_name)
-        
+
         record_name_pattern = r'<td class="item_description">.*?<a href="/sell/item/\d+"[^>]*>(.*?) - (.*?) \(.*?\)<\/a>'
         record_matches = re.findall(record_name_pattern, xml_file, re.DOTALL)
         record_names = [match[1].strip() for match in record_matches]
-        
+
         if record_names:
             print(f'Found {len(record_names)} artist names')
             return record_names
         else:
             print('No Matches for artist names')
-            return None
+            return []
 
     def get_media_condition(self, file_name):
+        # Load the XML file content
         xml_file = self.load_xml_file(file_name)
-        
-        media_condition_pattern = r'<span>\s*Media Condition:\s*<\/span>\s*<span>(.*?)<\/span>'
+
+        media_condition_pattern = r'<span>\s*([\w\s\(\)+\-]+)\s*<span'
         media_condition_matches = re.findall(media_condition_pattern, xml_file, re.DOTALL)
 
-        if media_condition_matches: 
-            print(f'Found media condition: {media_condition_matches}')
-            return media_condition_matches
-        else:
-            print('No Matches for media condition')
-            return None 
+        media_condition = []
 
-    def get_sleeve_condition(self, file_name):   
-        
+        if media_condition_matches:
+            for condition in media_condition_matches:
+                media_condition.append(condition.strip())
+
+            print(f'Found Media condition instances: {len(media_condition)}')
+            return media_condition
+        else:
+            print("Media Condition not found.")
+            return []
+
+    def get_sleeve_condition(self, file_name):
         xml_file = self.load_xml_file(file_name)
-        
+
         sleeve_condition_pattern = r'<span class="item_sleeve_condition">(.*?)<\/span>'
         sleeve_condition = re.findall(sleeve_condition_pattern, xml_file, re.DOTALL)
-        
+
         if sleeve_condition:
             print(f'Found Sleeve condition instances: {len(sleeve_condition)}')
             return sleeve_condition
         else:
             print("Walang nahanap")
-            return None
-        
+            return []
+
     def get_currency(self, file_name):
         xml_file = self.load_xml_file(file_name)
-        
+
         currency_pattern = r'data-currency="([A-Z]{3})"'
         currency_matches = re.findall(currency_pattern, xml_file)
 
@@ -107,96 +112,91 @@ class xmlParser:
             return currency
         else:
             print('No Matches for currency')
-            return None
-       
+            return []
+
     def get_item_price(self, file_name):
         xml_file = self.load_xml_file(file_name)
-        
+
         item_price_pattern = r'data-pricevalue="(\d+\.\d+)"'
-        item_price_matches = re.findall(item_price_pattern, xml_file) 
-        
+        item_price_matches = re.findall(item_price_pattern, xml_file)
+
         if item_price_matches:
-            item_price = item_price_matches[::2] # remove every second entry since it contains desktop + mobile listings
+            item_price = item_price_matches[::2]  # remove every second entry since it contains desktop + mobile listings
             print(f'Found item_price instances: {len(item_price)}')
             return item_price
         else:
             print('No Matches found for Item Price')
-            return None
-    
+            return []
+
     def get_seller_name(self, file_name):
-        
         xml_file = self.load_xml_file(file_name)
-        
+
         seller_name_pattern = r'data-seller-username="(.*?)"'
         seller_name_matches = re.findall(seller_name_pattern, xml_file, re.DOTALL)
-        
+
         if seller_name_matches:
-            seller_name = seller_name_matches[::2] # remove every second entry since it contains desktop + mobile listings
+            seller_name = seller_name_matches[::2]  # remove every second entry since it contains desktop + mobile listings
             print(f'Found Seller name instances: {len(seller_name)}')
             return seller_name
         else:
             print("Walang nahanap")
-            return None
+            return []
 
     def get_seller_rating(self, file_name):
-        
         xml_file = self.load_xml_file(file_name)
-        
+
         seller_rating_pattern = r'<strong>([\d\.]+%)<\/strong>'
         seller_rating = re.findall(seller_rating_pattern, xml_file, re.DOTALL)
-        
+
         if seller_rating:
-            print(f'Found seller rating instances: {seller_rating}')
+            print(f'Found seller rating instances: {len(seller_rating)}')
+            return seller_rating
         else:
             print("Walang nahanap")
-            return None
-    
+            return []
+
     def get_shipping_origin(self, file_name):
-        
         xml_file = self.load_xml_file(file_name)
-        
+
         shipping_origin_pattern = r'<span class="mplabel">Ships From:</span>(.*?)<\/li>'
         shipping_origin = re.findall(shipping_origin_pattern, xml_file)
-        
+
         if shipping_origin:
             print(f'Shipping Origin instances found: {len(shipping_origin)}')
             return shipping_origin
         else:
-            print("No shipping origin found")
-            return None
-        
-    def get_shipping_price(self, xml_content):
-        # Define regex patterns for shipping prices and availability messages
-        shipping_pattern = r'<span class="hide_mobile item_shipping">\s*\+(\$[0-9,]+\.[0-9]{2})\s*</span>'
-        unavailable_pattern = r'<p class="hide-desktop muted">\s*Unavailable in [\w\s]+\s*</p>'
+            print('No shipping origin found')
+            return []
 
-        # List to hold shipping prices or messages
-        shipping_prices = []
+    def get_shipping_price(self, file_name):
+        xml_file = self.load_xml_file(file_name)
 
-        # Find all shipping prices using regex
-        shipping_matches = re.findall(shipping_pattern, xml_content)
-        shipping_prices.extend(shipping_matches)
+        # Define combined regex pattern for shipping prices and unavailable messages
+        combined_shipping_price_pattern = (
+            r'<span class="hide_mobile item_shipping">\s*[+][A-Z]{3}(\d+\.\d+)'  # cases like +CHF / match[0]
+            r'|<span class="hide_mobile item_shipping">\s*[+][A-Z]{2}\p{Sc}(\d+\.\d+)'  # cases like +CA$40.00 / match[1]
+            r'|<span class="hide_mobile item_shipping">\s*[+]\p{Sc}(\d+\.\d+)'  # cases like +$ / match[2]
+            r'|<p class="hide-desktop muted">\s*(Unavailable in .*?)\s*</p>'  # cases like Unavailable in Philippines / match[3]
+        )
 
-        # Find all unavailable messages using regex
-        unavailable_matches = re.findall(unavailable_pattern, xml_content)
-        for _ in unavailable_matches:
-            shipping_prices.append("Unavailable in your country")
+        combined_shipping_price_match = re.findall(combined_shipping_price_pattern, xml_file)
+        shipping_prices_all = []  # this list still contains duplicates
 
-        return shipping_prices  # Return the list of shipping prices 
-        
+        for match in combined_shipping_price_match:
+            if match[0]:  # Shipping prices
+                shipping_prices_all.append(f'{match[0]}')
+            elif match[1]:
+                shipping_prices_all.append(f'{match[1]}')
+            elif match[2]:
+                shipping_prices_all.append(f'{match[2]}')
+            elif match[3]:  # Unavailable message
+                shipping_prices_all.append(match[3])
 
+        print(shipping_prices_all)
 
-
-
-
-
-test = xmlParser()
-test.get_listing_id("409250.xml")
-test.get_release_id("409250.xml")
-test.get_record_name("409250.xml")
-test.get_item_price("409250.xml")
-test.get_currency("1164485.xml")
-test.get_seller_name("1164485.xml")
-test.get_seller_rating("1164485.xml")
-test.get_media_condition("409250.xml")
-test.get_shipping_price("225817.xml")
+        if shipping_prices_all:
+            shipping_prices = filter_unique_prices(shipping_prices_all)
+            print(f'Shipping prices instances: {len(shipping_prices)}')
+            return shipping_prices
+        else:
+            return []

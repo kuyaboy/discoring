@@ -2,6 +2,9 @@
    {
       "release_id": 225817,
       "title": "The Underground Tapes Vol. 1",
+      "genre": [
+         "Hip Hop"
+      ],
       "artist": [
          "Saukrates"
       ],
@@ -26,6 +29,9 @@
    {
       "release_id": 419069,
       "title": "2 Roads Out The Ghetto",
+      "genre": [
+         "Hip Hop"
+      ],
       "artist": [
          "Nightbreed (4)"
       ],
@@ -47,6 +53,9 @@
    {
       "release_id": 1164485,
       "title": "Underground Kingz",
+      "genre": [
+         "Hip Hop"
+      ],
       "artist": [
          "UGK"
       ],
@@ -62,6 +71,31 @@
       ],
       "label": [
          "Jive"
+      ]
+   },
+   {
+      "release_id": 227772,
+      "title": "MVP",
+      "genre": [
+         "Hip Hop"
+      ],
+      "artist": [
+         "Big L"
+      ],
+      "year": 1995,
+      "format": [
+         {
+            "name": "Vinyl",
+            "qty": "1",
+            "descriptions": [
+               "12\"",
+               "33 \u2153 RPM",
+               "Stereo"
+            ]
+         }
+      ],
+      "label": [
+         "Columbia"
       ]
    }
 ]
