@@ -28,4 +28,5 @@ def filter_unique_prices(original_shipping_prices_list):
     
 h = ['Unavailable in Philippines', 'Unavailable in Philippines', '14.00', '14.00', '40.00', '40.00', 'Unavailable in Philippines', 'Unavailable in Philippines', 'Unavailable in Philippines', '14.00', '14.00', 'Unavailable in Philippines']
 
+
 filter_unique_prices(h)
