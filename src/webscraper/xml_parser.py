@@ -9,7 +9,7 @@ class xmlParser:
 
     def load_xml_file(self, file_name):
         current_dir = os.getcwd()
-        file_path = os.path.join(current_dir, 'src', 'data', 'raw', file_name)
+        file_path = os.path.join(current_dir, 'src', 'data', 'marketplace_listings', file_name)
 
         with open(file_path, 'r', encoding='utf-8') as file:
             return file.read()
@@ -69,7 +69,6 @@ class xmlParser:
             return []
 
     def get_media_condition(self, file_name):
-        # Load the XML file content
         xml_file = self.load_xml_file(file_name)
 
         media_condition_pattern = r'<span>\s*([\w\s\(\)+\-]+)\s*<span'
@@ -90,15 +89,19 @@ class xmlParser:
     def get_sleeve_condition(self, file_name):
         xml_file = self.load_xml_file(file_name)
 
+        item_pattern = r'<td class="item_description">(.*?)</td>'
+        items = re.findall(item_pattern, xml_file, re.DOTALL)
         sleeve_condition_pattern = r'<span class="item_sleeve_condition">(.*?)<\/span>'
-        sleeve_condition = re.findall(sleeve_condition_pattern, xml_file, re.DOTALL)
 
-        if sleeve_condition:
-            print(f'Found Sleeve condition instances: {len(sleeve_condition)}')
-            return sleeve_condition
-        else:
-            print("Walang nahanap")
-            return []
+        results = []
+        for item in items:
+            sleeve_condition_match = re.search(sleeve_condition_pattern, item, re.DOTALL)
+            
+            if sleeve_condition_match:
+                results.append(sleeve_condition_match.group(1).strip())
+            else:
+                results.append("NaN")
+        return results
 
     def get_currency(self, file_name):
         xml_file = self.load_xml_file(file_name)
@@ -181,7 +184,7 @@ class xmlParser:
 
         combined_shipping_price_match = re.findall(combined_shipping_price_pattern, xml_file)
         shipping_prices_all = []  # this list still contains duplicates
-
+ 
         for match in combined_shipping_price_match:
             if match[0]:  # Shipping prices
                 shipping_prices_all.append(f'{match[0]}')
@@ -191,12 +194,10 @@ class xmlParser:
                 shipping_prices_all.append(f'{match[2]}')
             elif match[3]:  # Unavailable message
                 shipping_prices_all.append(match[3])
-
-        print(shipping_prices_all)
-
+                
         if shipping_prices_all:
             shipping_prices = filter_unique_prices(shipping_prices_all)
-            print(f'Shipping prices instances: {len(shipping_prices)}')
+            print(f'Shipping prices instances without duplicates: {len(shipping_prices)}')
             return shipping_prices
         else:
             return []
