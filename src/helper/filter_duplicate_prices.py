@@ -1,42 +1,28 @@
 import regex as re
 
+import re
+
 def filter_unique_prices(original_shipping_prices_list):
     filtered_prices = []
-    last_price = None
-    consecutive_count = 0
+    i = 0
 
-    for price in original_shipping_prices_list:
-        if re.match(r'^\d+\.\d+$', price):  # Check if the price is numeric
-            if price == last_price:  # If the current price is the same as the last one
-                consecutive_count += 1  # Increment the count of this price
+    while i < len(original_shipping_prices_list):
+        current_price = original_shipping_prices_list[i]
+
+        # Check if the current price is numeric using regex
+        if re.match(r'^\d+\.\d+$', current_price):
+            # Check if the next price is the same (i.e., a pair)
+            if i + 1 < len(original_shipping_prices_list) and original_shipping_prices_list[i + 1] == current_price:
+                # Add the price once if it's part of a pair
+                filtered_prices.append(current_price)
+                i += 2  # Skip the next one since it's a duplicate
             else:
-                # If the last price is set and was seen consecutively, add it based on the count
-                if last_price is not None:
-                    if consecutive_count % 2 == 1:  # Add the last price if the count is odd
-                        filtered_prices.append(last_price)
-                    elif consecutive_count == 2:  # If it's the second in the pair, add it too
-                        filtered_prices.append(last_price)
-
-                # Reset for the new price
-                last_price = price  
-                consecutive_count = 1  # Reset count for the new price
+                # If it's not part of a pair, just add it
+                filtered_prices.append(current_price)
+                i += 1
         else:
-            # Handle non-numeric values
-            if last_price is not None:
-                if consecutive_count % 2 == 1:  # Add the last price if the count is odd
-                    filtered_prices.append(last_price)
-                elif consecutive_count == 2:  # If it's the second in the pair, add it too
-                    filtered_prices.append(last_price)
-
-            filtered_prices.append(price)
-            last_price = None  # Reset last price since we encountered a non-numeric value
-            consecutive_count = 0  # Reset consecutive count
-
-    # Check last price after loop ends
-    if last_price is not None:
-        if consecutive_count % 2 == 1:  # Add the last price if the count is odd
-            filtered_prices.append(last_price)
-        elif consecutive_count == 2:  # If it's the second in the pair, add it too
-            filtered_prices.append(last_price)
+            # Handle non-numeric values directly
+            filtered_prices.append(current_price)
+            i += 1
 
     return filtered_prices
