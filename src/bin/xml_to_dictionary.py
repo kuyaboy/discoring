@@ -1,21 +1,22 @@
 import os
+import json
 from src.webscraper.xml_parser import xmlParser
 
 def listing_to_dictionary():
     directory = os.path.join(os.getcwd(), 'src', 'data', 'marketplace_listings')
+    output_directory = os.path.join(os.getcwd(), 'src', 'data', 'listings_json')
+
     filenames = os.listdir(directory)
-    print(filenames)
     parser = xmlParser()
-    all_listings = []  # This will hold all the listing dictionaries
+
     for name in filenames:
-        # Define keys for the dictionary
         keys = ['listing_id', 'release_id', 
                 'record_name', 'artist', 
                 'media_condition', 'sleeve_condition',
                 'currency', 'item_price',
                 'seller_name', 'seller_rating',
-                'shipping_price', 'shipping_origin'
-                ]
+                'shipping_price', 'shipping_origin']
+
         # Use the parser methods to get lists of values
         listing_id_values = parser.get_listing_id(name)
         release_id_values = parser.get_release_id(name)
@@ -29,8 +30,9 @@ def listing_to_dictionary():
         seller_rating_values = parser.get_seller_rating(name)
         shipping_price_values = parser.get_shipping_price(name)
         shipping_origin_values = parser.get_shipping_origin(name)
+
         # Build the listings
-        listings_count = len(listing_id_values)  # Assuming all lists are the same length
+        listings_count = len(listing_id_values)
         for i in range(listings_count):
             listing_dict = {
                 keys[j]: values[i] for j, values in enumerate([
@@ -47,6 +49,29 @@ def listing_to_dictionary():
                     shipping_price_values,
                     shipping_origin_values
                 ])
-           }
-            all_listings.append(listing_dict)
-    return all_listings
+            }
+
+            release_id = listing_dict.get('release_id', 'unknown')
+            json_filename = f"{release_id}.json"
+            json_filepath = os.path.join(output_directory, json_filename)
+            
+            # Check if file already exists
+            if os.path.exists(json_filepath):
+                with open(json_filepath, 'r', encoding='utf-8') as json_file:
+                    existing_data = json.load(json_file)
+                
+                if isinstance(existing_data, list):
+                    existing_data.append(listing_dict)
+                else:
+                    existing_data = [existing_data, listing_dict]
+            else:
+                existing_data = [listing_dict]
+
+            with open(json_filepath, 'w', encoding='utf-8') as json_file:
+                json.dump(existing_data, json_file, ensure_ascii=False, indent=4)
+
+   
+if __name__ == "__main__":
+    listing = listing_to_dictionary()
+    
+    
