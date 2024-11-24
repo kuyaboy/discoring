@@ -32,9 +32,10 @@ class xmlParser:
 
         release_pattern = r'<a href="/release/(\d+)-[^"]*" class="item_release_link hide_mobile">View Release Page<\/a>'
         release_ids = re.findall(release_pattern, xml_file, re.DOTALL)
+        
 
         if release_ids:
-            print(f'Found {len(release_ids)} instances for release ID')
+            print(f'Found {len(release_ids)} instances for {(release_ids[0])}')
             return release_ids
         else:
             print('No Matches for release_id')
@@ -52,7 +53,6 @@ class xmlParser:
             return artist_names
         else:
             print('No Matches for artist names')
-            return []
 
     def get_record_name(self, file_name):
         xml_file = self.load_xml_file(file_name)
@@ -83,8 +83,7 @@ class xmlParser:
             print(f'Found Media condition instances: {len(media_condition)}')
             return media_condition
         else:
-            print("Media Condition not found.")
-            return []
+            return media_condition.append("NaN")
 
     def get_sleeve_condition(self, file_name):
         xml_file = self.load_xml_file(file_name)
