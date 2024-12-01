@@ -32,6 +32,7 @@ def listing_to_dictionary():
         shipping_origin_values = parser.get_shipping_origin(name)
 
         # Build the listings
+        listings = []
         listings_count = len(listing_id_values)
         for i in range(listings_count):
             listing_dict = {
@@ -50,25 +51,17 @@ def listing_to_dictionary():
                     shipping_origin_values
                 ])
             }
+            
+            listings.append(listing_dict)
+            
 
             release_id = listing_dict.get('release_id', 'unknown')
             json_filename = f"{release_id}.json"
             json_filepath = os.path.join(output_directory, json_filename)
-            
-            # Check if file already exists
-            if os.path.exists(json_filepath):
-                with open(json_filepath, 'r', encoding='utf-8') as json_file:
-                    existing_data = json.load(json_file)
-                
-                if isinstance(existing_data, list):
-                    existing_data.append(listing_dict)
-                else:
-                    existing_data = [existing_data, listing_dict]
-            else:
-                existing_data = [listing_dict]
+
 
             with open(json_filepath, 'w', encoding='utf-8') as json_file:
-                json.dump(existing_data, json_file, ensure_ascii=False, indent=4)
+                json.dump(listings, json_file, ensure_ascii=False, indent=4)
 
    
 if __name__ == "__main__":
