@@ -1,39 +1,30 @@
-from pymongo.mongo_client import MongoClient
-from pymongo.server_api import ServerApi
+import os
+
+import pymongo
+
 from dotenv import load_dotenv
 
 load_dotenv(override=True)
 
 
-class MongoDBClient(object):
-    def __init__(self, uri: str):
+class Database(object):
+    URI = os.getenv('MONGODB_URI')
+    DATABASE = None
 
-        self.uri = uri
-        self.client = None
+    @staticmethod
+    def inititalize():
+        client = pymongo.MongoClient(Database.URI)
+        Database.DATABASE = client[os.getenv('MONGODB_NAME')]
 
-        self.connect()
+    @staticmethod
+    def insert(collection, data):
+        Database.DATABASE[collection].insert_many(data)
 
-    def connect(self):
+    @staticmethod
+    def find(collection, query):
+        return Database.DATABASE[collection].find(query)
 
-        try:
-            self.client = MongoClient(self.uri, server_api=ServerApi('1'))
-            # Send a ping to confirm a successful connection
-            self.client.admin.command('ping')
-            print(f"Pinged your deployment. You successfully connected to {
-                  self.client.list_database_names()}")
-        except Exception as e:
-            print(f"Error connecting to MongoDB: {e}")
+    @staticmethod
+    def delete_all_documents(collection):
+        Database.DATABASE[collection].delete_many({})
 
-    def get_database(self, database_name: str):
-
-        if self.client is not None:
-            return self.client[database_name]
-        else:
-            print("Not connected to any MongoDB server.")
-            return None
-
-    def close(self):
-
-        if self.client:
-            self.client.close()
-            print("Connection to MongoDB closed.")
