@@ -1,10 +1,12 @@
 import json
 import os
+import random
+import time
 
 from src.webscraper.discogs_scraper import DiscogsScraper
 
 
-def discogs_to_xml():
+def convert_discogs_html_to_xml():
     wantlist_path = os.path.join(os.getcwd(), 'src', 'data',
                                  'filtered_wantlist', 'filtered_wantlist.json')
     try:
@@ -19,9 +21,11 @@ def discogs_to_xml():
         scraper.get_by_release_id(wantlist)
 
     finally:
+        delay = random.uniform(2, 10)
+        time.sleep(delay)
         scraper.delete_cookies()
         scraper.quit()
 
 
 if __name__ == "__main__":
-    discogs_to_xml()
+    convert_discogs_html_to_xml()
