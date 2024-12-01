@@ -11,7 +11,8 @@
         "seller_name": "mistercollector",
         "seller_rating": "99.3%",
         "shipping_price": "22.00",
-        "shipping_origin": "Italy"
+        "shipping_origin": "Italy",
+        "date": "2024-12-01 17:44:50"
     },
     {
         "listing_id": "3163845997",
@@ -25,7 +26,8 @@
         "seller_name": "crunkdout",
         "seller_rating": "100.0%",
         "shipping_price": "39.00",
-        "shipping_origin": "Australia"
+        "shipping_origin": "Australia",
+        "date": "2024-12-01 17:44:50"
     },
     {
         "listing_id": "3266092040",
@@ -39,7 +41,8 @@
         "seller_name": "snuffy_wally",
         "seller_rating": "100.0%",
         "shipping_price": "29.00",
-        "shipping_origin": "United States"
+        "shipping_origin": "United States",
+        "date": "2024-12-01 17:44:50"
     },
     {
         "listing_id": "3246822644",
@@ -53,7 +56,8 @@
         "seller_name": "BlackinBlacklodge",
         "seller_rating": "99.1%",
         "shipping_price": "Unavailable in Switzerland",
-        "shipping_origin": "United States"
+        "shipping_origin": "United States",
+        "date": "2024-12-01 17:44:50"
     },
     {
         "listing_id": "2082176021",
@@ -67,7 +71,8 @@
         "seller_name": "plaquetournante",
         "seller_rating": "100.0%",
         "shipping_price": "10.00",
-        "shipping_origin": "Switzerland"
+        "shipping_origin": "Switzerland",
+        "date": "2024-12-01 17:44:50"
     },
     {
         "listing_id": "3065906914",
@@ -81,7 +86,8 @@
         "seller_name": "Kcilcrawemerpus",
         "seller_rating": "99.5%",
         "shipping_price": "11.00",
-        "shipping_origin": "Switzerland"
+        "shipping_origin": "Switzerland",
+        "date": "2024-12-01 17:44:50"
     },
     {
         "listing_id": "2652473454",
@@ -95,6 +101,7 @@
         "seller_name": "EtherWood",
         "seller_rating": "91.8%",
         "shipping_price": "34.99",
-        "shipping_origin": "United Kingdom"
+        "shipping_origin": "United Kingdom",
+        "date": "2024-12-01 17:44:50"
     }
 ]
