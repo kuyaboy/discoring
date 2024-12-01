@@ -15,9 +15,11 @@ class DiscogsWantlistClient:
         try:
             user_token = os.getenv('DISCOGS_USER_TOKEN')
             if not user_token:
-                raise ValueError('Discogs user token not found in environment variables.')
+                raise ValueError(
+                    'Discogs user token not found in environment variables.')
 
-            self.client = discogs_client.Client('discoring/1.0', user_token=user_token)
+            self.client = discogs_client.Client(
+                'discoring/1.0', user_token=user_token)
             print('Discogs client initialized successfully.')
 
         except Exception as e:

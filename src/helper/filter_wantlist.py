@@ -8,7 +8,8 @@ def wantlist_filter():
     discogs_client = DiscogsWantlistClient()
     wantlist = discogs_client.get_wantlist()
 
-    filter_config_path = os.path.join(os.getcwd(), 'src', 'config', 'wantlist_filter_config.json')
+    filter_config_path = os.path.join(
+        os.getcwd(), 'src', 'config', 'wantlist_filter_config.json')
     with open(filter_config_path, 'r') as file:
         filter_criteria = json.load(file)
 
@@ -23,7 +24,8 @@ def wantlist_filter():
         for release_id, details in wantlist.items():
             if title == details.get('title') and year == details.get('year'):
                 if any(artist_query in artist_name.lower() for artist_name in details.get('artist', [])):
-                    format_names = [formats.get('name', '') for formats in details.get('format', [])]
+                    format_names = [formats.get('name', '')
+                                    for formats in details.get('format', [])]
                     if any(format_query in formats.lower() for formats in format_names):
                         filtered_wantlist.append({
                             'release_id': release_id,

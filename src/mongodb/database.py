@@ -4,13 +4,13 @@ from dotenv import load_dotenv
 
 load_dotenv(override=True)
 
+
 class MongoDBClient(object):
-    URI = 
     def __init__(self, uri: str):
 
         self.uri = uri
         self.client = None
-        
+
         self.connect()
 
     def connect(self):
@@ -19,7 +19,8 @@ class MongoDBClient(object):
             self.client = MongoClient(self.uri, server_api=ServerApi('1'))
             # Send a ping to confirm a successful connection
             self.client.admin.command('ping')
-            print(f"Pinged your deployment. You successfully connected to {self.client.list_database_names()}")
+            print(f"Pinged your deployment. You successfully connected to {
+                  self.client.list_database_names()}")
         except Exception as e:
             print(f"Error connecting to MongoDB: {e}")
 
@@ -32,7 +33,7 @@ class MongoDBClient(object):
             return None
 
     def close(self):
-        
+
         if self.client:
             self.client.close()
             print("Connection to MongoDB closed.")
