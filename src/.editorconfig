@@ -1,0 +1,23 @@
+root = true
+
+# Global settings
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# Python settings
+[*.py]
+indent_style = space
+indent_size = 4
+max_line_length = 79
+trailing_comma = true
+tab_width = 4
+insert_final_newline = true
+end_of_file = true
+
+# JSON settings
+[*.json]
+indent_style = space
+indent_size = 2

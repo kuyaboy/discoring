@@ -1,5 +1,6 @@
 import regex as re
 
+
 def filter_unique_prices(original_shipping_prices_list):
     filtered_prices = []
     i = 0

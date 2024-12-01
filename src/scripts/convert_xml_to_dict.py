@@ -1,21 +1,32 @@
 import os
 import json
+
+from datetime import datetime
+
 from src.webscraper.xml_parser import xmlParser
 
-def listing_to_dictionary():
-    directory = os.path.join(os.getcwd(), 'src', 'data', 'marketplace_listings')
-    output_directory = os.path.join(os.getcwd(), 'src', 'data', 'listings_json')
+
+def convert_wantlist_xml_to_dict():
+    directory = os.path.join(os.getcwd(),
+                             'src', 'data',
+                             'marketplace_listings')
+
+    output_directory = os.path.join(os.getcwd(),
+                                    'src', 'data',
+                                    'listings_json')
 
     filenames = os.listdir(directory)
     parser = xmlParser()
 
+    date = str(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+
     for name in filenames:
-        keys = ['listing_id', 'release_id', 
-                'record_name', 'artist', 
+        keys = ['listing_id', 'release_id',
+                'record_name', 'artist',
                 'media_condition', 'sleeve_condition',
                 'currency', 'item_price',
                 'seller_name', 'seller_rating',
-                'shipping_price', 'shipping_origin']
+                'shipping_price', 'shipping_origin','date']
 
         # Use the parser methods to get lists of values
         listing_id_values = parser.get_listing_id(name)
@@ -35,6 +46,9 @@ def listing_to_dictionary():
         listings = []
         listings_count = len(listing_id_values)
         for i in range(listings_count):
+
+            current_date = str(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+
             listing_dict = {
                 keys[j]: values[i] for j, values in enumerate([
                     listing_id_values,
@@ -48,23 +62,19 @@ def listing_to_dictionary():
                     seller_name_values,
                     seller_rating_values,
                     shipping_price_values,
-                    shipping_origin_values
+                    shipping_origin_values,
                 ])
             }
-            
+
+            listing_dict['date'] = current_date
             listings.append(listing_dict)
-            
 
             release_id = listing_dict.get('release_id', 'unknown')
             json_filename = f"{release_id}.json"
             json_filepath = os.path.join(output_directory, json_filename)
-
-
             with open(json_filepath, 'w', encoding='utf-8') as json_file:
                 json.dump(listings, json_file, ensure_ascii=False, indent=4)
 
-   
+
 if __name__ == "__main__":
-    listing = listing_to_dictionary()
-    
-    
+    convert_wantlist_xml_to_dict()
