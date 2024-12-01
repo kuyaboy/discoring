@@ -1,11 +1,4 @@
 [
-    {   
-        "artist" : "Saukrates",
-        "title" : "The Underground Tapes Vol. 1",
-        "year" : 1999,
-        "format" : "Vinyl"
-    },
-
     {
         "artist" : "Nightbreed",
         "title" : "2 Roads Out The Ghetto",
@@ -14,16 +7,22 @@
     },
 
     {
-        "artist" : "UGK",
-        "title" : "Underground Kingz",
-        "year" : 2007,
-        "format" : "CD"
+        "artist" : "Natsu Summer & Ryusenkei",
+        "title" : "Sun Kissed Lady",
+        "year" : 2022,
+        "format" : "Vinyl"
     },
 
     {
         "artist" : "Big L",
-        "title" : "MVP",
-        "year" : 1995,
+        "title" : "Return Of The Devils Son",
+        "year" : 2011,
+        "format" : "Vinyl"
+    },
+    {
+        "artist" : "Les Nubians",
+        "title" : "Princesses Nubiennes",
+        "year" : "1998",
         "format" : "Vinyl"
     }
 ]
