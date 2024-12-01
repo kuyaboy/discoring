@@ -1,32 +1,5 @@
 [
    {
-      "release_id": 225817,
-      "title": "The Underground Tapes Vol. 1",
-      "genre": [
-         "Hip Hop"
-      ],
-      "artist": [
-         "Saukrates"
-      ],
-      "year": 1999,
-      "format": [
-         {
-            "name": "Vinyl",
-            "qty": "1",
-            "descriptions": [
-               "12\"",
-               "33 \u2153 RPM",
-               "EP",
-               "Limited Edition"
-            ]
-         }
-      ],
-      "label": [
-         "Serious Entertainment, Inc.",
-         "Capitol Hill Music Inc."
-      ]
-   },
-   {
       "release_id": 419069,
       "title": "2 Roads Out The Ghetto",
       "genre": [
@@ -51,51 +24,81 @@
       ]
    },
    {
-      "release_id": 1164485,
-      "title": "Underground Kingz",
+      "release_id": 25034728,
+      "title": "Sun Kissed Lady",
       "genre": [
-         "Hip Hop"
+         "Reggae",
+         "Pop"
       ],
       "artist": [
-         "UGK"
+         "Natsu Summer",
+         "Ryusenkei"
       ],
-      "year": 2007,
+      "year": 2022,
       "format": [
          {
-            "name": "CD",
-            "qty": "2",
+            "name": "Vinyl",
+            "qty": "1",
             "descriptions": [
-               "Album"
+               "LP",
+               "Album",
+               "Limited Edition"
             ]
          }
       ],
       "label": [
-         "Jive"
+         "CMT Records (2)"
       ]
    },
    {
-      "release_id": 227772,
-      "title": "MVP",
+      "release_id": 2730201,
+      "title": "Return Of The Devils Son",
       "genre": [
          "Hip Hop"
       ],
       "artist": [
          "Big L"
       ],
-      "year": 1995,
+      "year": 2011,
       "format": [
          {
             "name": "Vinyl",
-            "qty": "1",
+            "qty": "2",
             "descriptions": [
-               "12\"",
-               "33 \u2153 RPM",
-               "Stereo"
+               "LP",
+               "Album",
+               "Compilation"
             ]
          }
       ],
       "label": [
-         "Columbia"
+         "Distrolord Inc."
+      ]
+   },
+   {
+      "release_id": 1746049,
+      "title": "Princesses Nubiennes",
+      "genre": [
+         "Jazz",
+         "Funk / Soul"
+      ],
+      "artist": [
+         "Les Nubians"
+      ],
+      "year": 1998,
+      "format": [
+         {
+            "name": "Vinyl",
+            "qty": "2",
+            "descriptions": [
+               "LP",
+               "Album"
+            ]
+         }
+      ],
+      "label": [
+         "Virgin",
+         "Virgin"
       ]
    }
 ]
