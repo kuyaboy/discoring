@@ -18,7 +18,7 @@ load_dotenv()
 class DiscogsScraper:
     def __init__(self):
         options = Options()
-        #options.add_argument('--headless')
+        options.add_argument('--headless')
         options.add_argument('--ignore-certificate-errors')
         options.add_argument('--ignore-ssl-errors')
         self.driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
