@@ -1,4 +1,3 @@
-import os
 import time
 import random
 
@@ -17,7 +16,10 @@ load_dotenv()
 class DiscogsScraper:
     def __init__(self):
         options = Options()
-        # options.add_argument('--headless')
+        options.add_argument('start-maximized')
+        # options.add_argument("--headless")
+        options.add_experimental_option("excludeSwitches", ["enable-automation"])
+        options.add_experimental_option('useAutomationExtension', False)
         options.add_argument('--ignore-certificate-errors')
         options.add_argument('--ignore-ssl-errors')
         self.driver = webdriver.Chrome(service=ChromeService(
