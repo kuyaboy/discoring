@@ -224,8 +224,7 @@ class xmlParser:
 
         if shipping_prices_all:
             shipping_prices = filter_unique_prices(shipping_prices_all)
-            print(f'Shipping prices instances without duplicates: {
-                  len(shipping_prices)}')
+            print(f'Shipping prices instances without duplicates: {len(shipping_prices)}')
             return shipping_prices
         else:
             no_entry.append("NaN")
