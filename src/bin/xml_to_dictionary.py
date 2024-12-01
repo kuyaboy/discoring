@@ -1,17 +1,24 @@
 import os
 import json
+
 from src.webscraper.xml_parser import xmlParser
 
+
 def listing_to_dictionary():
-    directory = os.path.join(os.getcwd(), 'src', 'data', 'marketplace_listings')
-    output_directory = os.path.join(os.getcwd(), 'src', 'data', 'listings_json')
+    directory = os.path.join(os.getcwd(),
+                             'src', 'data',
+                             'marketplace_listings')
+
+    output_directory = os.path.join(os.getcwd(),
+                                    'src', 'data',
+                                    'listings_json')
 
     filenames = os.listdir(directory)
     parser = xmlParser()
 
     for name in filenames:
-        keys = ['listing_id', 'release_id', 
-                'record_name', 'artist', 
+        keys = ['listing_id', 'release_id',
+                'record_name', 'artist',
                 'media_condition', 'sleeve_condition',
                 'currency', 'item_price',
                 'seller_name', 'seller_rating',
@@ -51,20 +58,15 @@ def listing_to_dictionary():
                     shipping_origin_values
                 ])
             }
-            
+
             listings.append(listing_dict)
-            
 
             release_id = listing_dict.get('release_id', 'unknown')
             json_filename = f"{release_id}.json"
             json_filepath = os.path.join(output_directory, json_filename)
-
-
             with open(json_filepath, 'w', encoding='utf-8') as json_file:
                 json.dump(listings, json_file, ensure_ascii=False, indent=4)
 
-   
+
 if __name__ == "__main__":
     listing = listing_to_dictionary()
-    
-    

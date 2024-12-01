@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 
 load_dotenv(override=True)
 
+
 class DiscogsWantlistClient:
     def __init__(self):
         '''
@@ -21,22 +22,18 @@ class DiscogsWantlistClient:
 
         except Exception as e:
             print(f'Error during Discogs authorization process: {e}')
-        
+
     def get_wantlist(self):
-        
+
         username = os.getenv('DISCOGS_USERNAME')
-        
         user = self.client.user(username)
-        
         wantlist = user.wantlist
-        
         wantlist_dict = {record.release.id: {'title': record.release.title,
-                                           'genre': record.release.genres, 
-                                              'artist': [artist.name for artist in record.release.artists], 
-                                              'label': [label.name for label in record.release.labels], 
-                                              'year': record.release.year,
-                                              'format': record.release.formats,
-                                              } 
+                                             'genre': record.release.genres,
+                                             'artist': [artist.name for artist in record.release.artists],
+                                             'label': [label.name for label in record.release.labels],
+                                             'year': record.release.year,
+                                             'format': record.release.formats}
                          for record in wantlist}
-        
+
         return wantlist_dict

@@ -3,6 +3,7 @@ import regex as re
 
 from src.helper.filter_duplicate_prices import filter_unique_prices
 
+
 class xmlParser:
     def __init__(self):
         self.root = None
@@ -34,7 +35,6 @@ class xmlParser:
         release_pattern = r'<a href="/release/(\d+)-[^"]*" class="item_release_link hide_mobile">View Release Page<\/a>'
         release_ids = re.findall(release_pattern, xml_file, re.DOTALL)
         no_entry = []
-        
 
         if release_ids:
             print(f'Found {len(release_ids)} instances for {(release_ids[0])}')
@@ -42,7 +42,6 @@ class xmlParser:
         else:
             no_entry.append(file_name.split(".")[0])
             return no_entry
-            
 
     def get_artist_name(self, file_name):
         xml_file = self.load_xml_file(file_name)
@@ -58,7 +57,6 @@ class xmlParser:
         else:
             no_entry.append("NaN")
             return no_entry
-            
 
     def get_record_name(self, file_name):
         xml_file = self.load_xml_file(file_name)
@@ -67,7 +65,6 @@ class xmlParser:
         record_matches = re.findall(record_name_pattern, xml_file, re.DOTALL)
         record_names = [match[1].strip() for match in record_matches]
         no_entry = []
-            
 
         if record_names:
             print(f'Found {len(record_names)} artist names')
@@ -120,7 +117,7 @@ class xmlParser:
         currency_pattern = r'data-currency="([A-Z]{3})"'
         currency_matches = re.findall(currency_pattern, xml_file)
         no_entry = []
-        
+
         if currency_matches:
             currency = currency_matches[::2]
             print(f'Found currency instances: {len(currency)}')
@@ -151,7 +148,7 @@ class xmlParser:
 
         seller_name_pattern = r'data-seller-username="(.*?)"'
         seller_name_matches = re.findall(seller_name_pattern, xml_file, re.DOTALL)
-        no_entry= []
+        no_entry = []
 
         if seller_name_matches:
             seller_name = seller_name_matches[::2]  # remove every second entry since it contains desktop + mobile listings
@@ -183,7 +180,7 @@ class xmlParser:
         shipping_origin_pattern = r'<span class="mplabel">Ships From:</span>(.*?)<\/li>'
         shipping_origin = re.findall(shipping_origin_pattern, xml_file)
         no_entry = []
-        
+
         if shipping_origin:
             print(f'Shipping Origin instances found: {len(shipping_origin)}')
             return shipping_origin
@@ -199,10 +196,10 @@ class xmlParser:
         combined_shipping_price_pattern = (
             r'<span class="hide_mobile item_shipping">\s*[+][A-Z]{3}(\d+\.\d+)'  # cases like +CHF / match[0]
             r'|<span class="hide_mobile item_shipping">\s*[+][A-Z]{2}\p{Sc}(\d+\.\d+)'  # cases like +CA$40.00 / match[1]
-            r'|<span class="hide_mobile item_shipping">\s*[+][A-Z]{1}\p{Sc}(\d+\.\d+)' # cases like +A$50.00
+            r'|<span class="hide_mobile item_shipping">\s*[+][A-Z]{1}\p{Sc}(\d+\.\d+)'  # cases like +A$50.00
             r'|<span class="hide_mobile item_shipping">\s*[+]\p{Sc}(\d+\.\d+)'  # cases like +$ / match[2]
             r'|<span class="hide_mobile item_shipping">\s*[+]\p{Sc}(\d+\,\d+)'  # cases like +¥1,690 / match [2]
-            r'|<p class="hide-desktop muted">\s*(Unavailable in .*?)\s*</p>' # cases like Unavailable in Philippines / match[3]'
+            r'|<p class="hide-desktop muted">\s*(Unavailable in .*?)\s*</p>'  # cases like Unavailable in Philippines / match[3]'
         )
 
         combined_shipping_price_match = re.finditer(combined_shipping_price_pattern, xml_file)
@@ -212,8 +209,8 @@ class xmlParser:
         for match in combined_shipping_price_match:
             for group in match.groups():
                 if group:
-                   shipping_prices_all.append(group.strip())
-                        
+                    shipping_prices_all.append(group.strip())
+
         if shipping_prices_all:
             shipping_prices = filter_unique_prices(shipping_prices_all)
             print(f'Shipping prices instances without duplicates: {len(shipping_prices)}')

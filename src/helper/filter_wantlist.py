@@ -1,6 +1,8 @@
 import os
 import json
+
 from src.discogsclient.wantlist import DiscogsWantlistClient
+
 
 def wantlist_filter():
     discogs_client = DiscogsWantlistClient()
@@ -9,9 +11,9 @@ def wantlist_filter():
     filter_config_path = os.path.join(os.getcwd(), 'src', 'config', 'wantlist_filter_config.json')
     with open(filter_config_path, 'r') as file:
         filter_criteria = json.load(file)
-    
+
     filtered_wantlist = []
-    
+
     for filter_record in filter_criteria:
         artist_query = filter_record.get('artist', '').lower()
         title = filter_record.get('title')
@@ -32,5 +34,5 @@ def wantlist_filter():
                             'format': format_names,
                             **details
                         })
-                    
+
     return filtered_wantlist

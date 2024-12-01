@@ -4,7 +4,8 @@ from dotenv import load_dotenv
 
 load_dotenv(override=True)
 
-class MongoDBClient:
+class MongoDBClient(object):
+    URI = 
     def __init__(self, uri: str):
 
         self.uri = uri
