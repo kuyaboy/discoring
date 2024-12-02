@@ -18,8 +18,6 @@ def convert_wantlist_xml_to_dict():
     filenames = os.listdir(directory)
     parser = xmlParser()
 
-    date = str(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
-
     for name in filenames:
         keys = ['listing_id', 'release_id',
                 'record_name', 'artist',
