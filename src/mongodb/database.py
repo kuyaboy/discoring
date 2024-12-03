@@ -2,6 +2,9 @@ import os
 
 import pymongo
 
+from dotenv import load_dotenv
+
+load_dotenv(override=True)
 
 class Database(object):
     URI = os.getenv('MONGODB_URI')
@@ -17,8 +20,12 @@ class Database(object):
         Database.DATABASE[collection].insert_many(data)
 
     @staticmethod
-    def find_deals(collection, query):
+    def find(collection, query):
         return Database.DATABASE[collection].find(query)
+
+    @staticmethod
+    def find_release_id(collection):
+        return Database.DATABASE[collection].distinct("release_id")
 
     @staticmethod
     def delete_all_documents(collection):
