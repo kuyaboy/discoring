@@ -6,7 +6,6 @@ from dotenv import load_dotenv
 
 load_dotenv(override=True)
 
-
 class Database(object):
     URI = os.getenv('MONGODB_URI')
     DATABASE = None
@@ -23,6 +22,10 @@ class Database(object):
     @staticmethod
     def find(collection, query):
         return Database.DATABASE[collection].find(query)
+
+    @staticmethod
+    def find_release_id(collection):
+        return Database.DATABASE[collection].distinct("release_id")
 
     @staticmethod
     def delete_all_documents(collection):

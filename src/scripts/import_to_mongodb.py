@@ -1,11 +1,7 @@
 import json
 import os
 
-from dotenv import load_dotenv
-
 from src.mongodb.database import Database
-
-load_dotenv(override=True)
 
 
 def import_listings_to_mongodb():

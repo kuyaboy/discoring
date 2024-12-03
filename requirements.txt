@@ -1,3 +1,5 @@
 discogs_client
 pymongo
 selenium
+requests
+urllib
