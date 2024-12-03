@@ -138,6 +138,7 @@ class xmlParser:
         if item_price_matches:
             # remove every second entry since it contains desktop + mobile listings
             item_price = item_price_matches[::2]
+            item_price = [price.replace(',', '') for price in item_price]
             print(f'Found item_price instances: {len(item_price)}')
             return item_price
         else:
@@ -224,6 +225,7 @@ class xmlParser:
 
         if shipping_prices_all:
             shipping_prices = filter_unique_prices(shipping_prices_all)
+            shipping_prices = [price.replace(',', '') for price in shipping_prices]
             print(f'Shipping prices instances without duplicates: {len(shipping_prices)}')
             return shipping_prices
         else:
