@@ -1,6 +1,3 @@
-# https://api.telegram.org/bot8030423215:AAHwsPTMVHUs8pMscH07bn03O2y-gcAVlHE/getUpdates --> get updates about my groupchat
-# https://api.telegram.org/bot8030423215:AAHwsPTMVHUs8pMscH07bn03O2y-gcAVlHE/sendMessage?chat_id=-4699405740&text="This is my first message" --> send message to my group chat
-
 import os
 import requests
 import urllib
