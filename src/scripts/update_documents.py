@@ -33,7 +33,6 @@ def update_listings_in_mongodb():
         shipping_price_chf = entries[record]['shipping_price_chf']
         item_price = entries[record]['item_price']
         shipping_price = entries[record]['shipping_price']
-
         date = entries[record]['date']
 
         query = {
