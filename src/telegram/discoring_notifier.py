@@ -35,18 +35,22 @@ def check_and_notify():
         query_results.extend(results_list)
 
     if query_results:
-        for listing_id, record_name, record_price, shipping_price in zip(
+        for listing_id, record_name, record_price, shipping_price, media_condition, sleeve_condition in zip(
                 [result['listing_id'] for result in query_results],
                 [result['record_name'] for result in query_results],
                 [result['item_price_chf'] for result in query_results],
-                [result['shipping_price_chf'] for result in query_results]
+                [result['shipping_price_chf'] for result in query_results],
+                [result['media_condition'] for result in query_results],
+                [result['sleeve_condition'] for result in query_results]
         ):
 
-            text = f"""*!!ALERT!!* 🚨🚨🚨
+            text = f"""🚨🚨🚨*!!!ALERT!!!*🚨🚨🚨
 
 *Record Name:* {record_name}
 *Price (CHF):* {record_price}
 *Shipping Price (CHF):* {shipping_price}
+*Media Condition:* {media_condition}
+*Sleeve Condition:* {sleeve_condition}
 
 *Link to Record:* [Click here]({sell_item_url + listing_id})
 """
