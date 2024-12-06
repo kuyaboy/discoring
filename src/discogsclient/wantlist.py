@@ -2,9 +2,7 @@ import os
 
 import discogs_client
 
-from dotenv import load_dotenv
-
-load_dotenv(override=True)
+from src.logger import logger
 
 
 class DiscogsWantlistClient:
@@ -20,10 +18,10 @@ class DiscogsWantlistClient:
 
             self.client = discogs_client.Client(
                 'discoring/1.0', user_token=user_token)
-            print('Discogs client initialized successfully.')
+            logger.info('Discogs client initialized successfully.')
 
         except Exception as e:
-            print(f'Error during Discogs authorization process: {e}')
+            logger.error(f'Error during Discogs authorization process: {e}')
 
     def get_wantlist(self):
 
