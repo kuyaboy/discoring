@@ -61,7 +61,7 @@ def update_listings_in_mongodb():
             }
         }
 
-        mongodb.update_documents(collection, query, update)
+        mongodb.update_one(collection, query, update)
 
 
 if __name__ == "__main__":
