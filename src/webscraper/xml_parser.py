@@ -24,7 +24,6 @@ class xmlParser:
         no_entry = []
 
         if listing_ids:
-            print(f'Found {len(listing_ids)} instances for listing ID')
             return listing_ids
         else:
             no_entry.append("NaN")
@@ -38,7 +37,6 @@ class xmlParser:
         no_entry = []
 
         if release_ids:
-            print(f'Found {len(release_ids)} instances for {(release_ids[0])}')
             return release_ids
         else:
             no_entry.append(file_name.split(".")[0])
@@ -53,7 +51,6 @@ class xmlParser:
         no_entry = []
 
         if artist_names:
-            print(f'Found {len(artist_names)} artist names')
             return artist_names
         else:
             no_entry.append("NaN")
@@ -68,7 +65,6 @@ class xmlParser:
         no_entry = []
 
         if record_names:
-            print(f'Found {len(record_names)} artist names')
             return record_names
         else:
             no_entry.append("NaN")
@@ -88,7 +84,6 @@ class xmlParser:
             for condition in media_condition_matches:
                 media_condition.append(condition.strip())
 
-            print(f'Found Media condition instances: {len(media_condition)}')
             return media_condition
         else:
             no_entry.append("NaN")
@@ -121,11 +116,9 @@ class xmlParser:
 
         if currency_matches:
             currency = currency_matches[::2]
-            print(f'Found currency instances: {len(currency)}')
             return currency
         else:
             no_entry.append("NaN")
-            print('No Matches for currency')
             return no_entry
 
     def get_item_price(self, file_name):
@@ -139,11 +132,9 @@ class xmlParser:
             # remove every second entry since it contains desktop + mobile listings
             item_price = item_price_matches[::2]
             item_price = [price.replace(',', '') for price in item_price]
-            print(f'Found item_price instances: {len(item_price)}')
             return item_price
         else:
             no_entry.append("NaN")
-            print('No Matches found for Item Price')
             return no_entry
 
     def get_seller_name(self, file_name):
@@ -157,11 +148,9 @@ class xmlParser:
         if seller_name_matches:
             # remove every second entry since it contains desktop + mobile listings
             seller_name = seller_name_matches[::2]
-            print(f'Found Seller name instances: {len(seller_name)}')
             return seller_name
         else:
             no_entry.append("NaN")
-            print("Walang nahanap")
             return no_entry
 
     def get_seller_rating(self, file_name):
@@ -176,7 +165,6 @@ class xmlParser:
             return seller_rating
         else:
             no_entry.append("NaN")
-            print("Walang nahanap")
             return no_entry
 
     def get_shipping_origin(self, file_name):
@@ -191,7 +179,6 @@ class xmlParser:
             return shipping_origin
         else:
             no_entry.append("NaN")
-            print('No shipping origin found')
             return no_entry
 
     def get_shipping_price(self, file_name):
@@ -226,9 +213,7 @@ class xmlParser:
         if shipping_prices_all:
             shipping_prices = filter_unique_prices(shipping_prices_all)
             shipping_prices = [price.replace(',', '') for price in shipping_prices]
-            print(f'Shipping prices instances without duplicates: {len(shipping_prices)}')
             return shipping_prices
         else:
             no_entry.append("NaN")
-            print("No prices found")
             return no_entry

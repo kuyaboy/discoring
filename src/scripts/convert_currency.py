@@ -11,7 +11,7 @@ def convert_price_to_chf():
     listings = os.listdir(listings_directory)
 
     rates_directory = os.path.join(os.getcwd(), 'src', 'config')
-    rates_file = 'chf_exchange_rates.json'
+    rates_file = 'chf_exchange_rates_config.json'
     rates_path = os.path.join(rates_directory, rates_file)
 
     with open(rates_path, 'r', encoding='utf-8') as rates_file:

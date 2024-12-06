@@ -9,22 +9,16 @@ from src.webscraper.discogs_scraper import DiscogsScraper
 def convert_discogs_html_to_xml():
     wantlist_path = os.path.join(os.getcwd(), 'src', 'data',
                                  'filtered_wantlist', 'filtered_wantlist.json')
-    try:
-        with open(wantlist_path, 'r') as file:
-            wantlist = json.load(file)
-    except FileNotFoundError:
-        print("Error: wantlist.json file not found.")
-        wantlist = []
+    with open(wantlist_path, 'r') as file:
+        wantlist = json.load(file)
 
     scraper = DiscogsScraper()
-    try:
-        scraper.get_by_release_id(wantlist)
+    scraper.get_by_release_id(wantlist)
 
-    finally:
-        delay = random.uniform(2, 10)
-        time.sleep(delay)
-        scraper.delete_cookies()
-        scraper.quit()
+    delay = random.uniform(2, 10)
+    time.sleep(delay)
+    scraper.delete_cookies()
+    scraper.quit()
 
 
 if __name__ == "__main__":

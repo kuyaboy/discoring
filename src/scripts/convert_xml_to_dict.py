@@ -5,6 +5,16 @@ from datetime import datetime
 
 from src.webscraper.xml_parser import xmlParser
 
+import logging
+import os
+import json
+from datetime import datetime
+
+# Assuming xmlParser is already defined somewhere in your code
+# from your_module import xmlParser
+
+# Configure logging
+logging.basicConfig(level=logging.ERROR, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def convert_wantlist_xml_to_dict():
     directory = os.path.join(os.getcwd(),
@@ -18,15 +28,16 @@ def convert_wantlist_xml_to_dict():
     filenames = os.listdir(directory)
     parser = xmlParser()
 
-    for name in filenames:
-        keys = ['listing_id', 'release_id',
-                'record_name', 'artist',
-                'media_condition', 'sleeve_condition',
-                'currency', 'item_price',
-                'seller_name', 'seller_rating',
-                'shipping_price', 'shipping_origin','date']
+    # Define keys
+    keys = ['listing_id', 'release_id',
+            'record_name', 'artist',
+            'media_condition', 'sleeve_condition',
+            'currency', 'item_price',
+            'seller_name', 'seller_rating',
+            'shipping_price', 'shipping_origin', 'date']
 
-        # Use the parser methods to get lists of values
+    for name in filenames:
+        # Get the list values from parser
         listing_id_values = parser.get_listing_id(name)
         release_id_values = parser.get_release_id(name)
         record_name_values = parser.get_record_name(name)
@@ -40,11 +51,26 @@ def convert_wantlist_xml_to_dict():
         shipping_price_values = parser.get_shipping_price(name)
         shipping_origin_values = parser.get_shipping_origin(name)
 
-        # Build the listings
-        listings = []
-        listings_count = len(listing_id_values)
-        for i in range(listings_count):
+        # Check if all lists are of the same length otherwise something with the parsing went wrong
+        lengths = [
+            len(listing_id_values), len(release_id_values),
+            len(record_name_values), len(artist_name_values),
+            len(media_condition_values), len(sleeve_condition_values),
+            len(currency_values), len(item_price_values),
+            len(seller_name_values), len(seller_rating_values),
+            len(shipping_price_values), len(shipping_origin_values)
+        ]
 
+        if len(set(lengths)) > 1:
+            error_msg = f"Lists don't have the same lengths {name}. Check .xml file " \
+                        f"Lengths: {lengths}"
+            logging.error(error_msg)
+            raise ValueError(error_msg)
+
+        # Build the listings if lengths are the same
+        listings = []
+        listings_count = len(listing_id_values)  # All lists should have the same length
+        for i in range(listings_count):
             current_date = str(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
 
             listing_dict = {

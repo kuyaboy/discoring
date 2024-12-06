@@ -6,11 +6,9 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.by import By
-from dotenv import load_dotenv
 from lxml import etree, html
 
-load_dotenv()
+from src.logger import logger
 
 
 class DiscogsScraper:
@@ -43,17 +41,13 @@ class DiscogsScraper:
                 discogs_content = discogs_doc.xpath(
                     "//*[@id='pjax_container']/table")
 
-                if not discogs_content:
-                    print('Something went wrong: XML file is empty')
-                else:
-                    with open(f'src\\data\\marketplace_listings\\{release_id}.xml', 'wb') as out:
-                        out.write(etree.tostring(
-                            discogs_content[0], pretty_print=True, encoding='utf-8'))
-
-                    print(f'Successfully scraped marketplace for {title}')
+                with open(f'src\\data\\marketplace_listings\\{release_id}.xml', 'wb') as out:
+                    out.write(etree.tostring(
+                         discogs_content[0], pretty_print=True, encoding='utf-8'))
 
         except WebDriverException as e:
-            print(f'Error occurred: {e}')
+            logger.error(f'Error occurred: {e}')
+            raise
 
     def delete_cookies(self):
         self.driver.delete_all_cookies()

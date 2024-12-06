@@ -2,9 +2,7 @@ import os
 
 import pymongo
 
-from dotenv import load_dotenv
-
-load_dotenv(override=True)
+from src.logger import logger
 
 class Database(object):
     URI = os.getenv('MONGODB_URI')
@@ -12,8 +10,15 @@ class Database(object):
 
     @staticmethod
     def inititalize():
-        client = pymongo.MongoClient(Database.URI)
-        Database.DATABASE = client[os.getenv('MONGODB_NAME')]
+
+        try:
+            client = pymongo.MongoClient(Database.URI)
+            client.admin.command('ping')
+            Database.DATABASE = client[os.getenv('MONGODB_NAME')]
+
+        except pymongo.errors.ConnectionFailure as e:
+            logger.error(f'Failed to connect to MongoDB: {e}')
+            raise
 
     @staticmethod
     def insert(collection, data):
