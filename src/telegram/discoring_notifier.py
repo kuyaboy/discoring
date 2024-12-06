@@ -6,9 +6,6 @@ from src.mongodb.queries import get_query_les_nubiennes
 from src.mongodb.queries import get_query_return_of_the_devils_son
 from src.mongodb.queries import get_query_roads_out_the_ghetto
 from src.mongodb.queries import get_query_sun_kissed_lady
-from dotenv import load_dotenv
-
-load_dotenv(override=True)
 
 
 def check_and_notify():
