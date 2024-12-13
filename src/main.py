@@ -1,4 +1,8 @@
 #!/opt/venv/bin/python3
+import time
+
+from dotenv import load_dotenv
+load_dotenv()
 
 from logger import get_logger
 from scripts.convert_currency import convert_price_to_chf
@@ -7,11 +11,6 @@ from scripts.convert_xml_to_dict import convert_wantlist_xml_to_dict
 from scripts.delete_documents import delete_orphaned_documents
 from scripts.update_documents import update_listings_in_mongodb
 from telegram.discoring_notifier import check_and_notify
-
-from dotenv import load_dotenv
-import time
-
-load_dotenv()
 
 if __name__ == "__main__":
     logger = get_logger()
