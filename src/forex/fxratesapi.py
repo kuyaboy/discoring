@@ -2,7 +2,7 @@ import os
 
 import requests
 
-from src.logger import logger
+from logger import logger
 
 def get_currency_exchange_rate():
     url = f"https://api.fxratesapi.com/latest?api_key={os.getenv('FXRATES_API_TOKEN')}&base=CHF&places=2"

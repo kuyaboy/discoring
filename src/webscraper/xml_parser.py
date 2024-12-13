@@ -1,7 +1,7 @@
 import os
 import regex as re
 
-from src.helper.filter_duplicate_prices import filter_unique_prices
+from helper.filter_duplicate_prices import filter_unique_prices
 
 
 class xmlParser:
@@ -161,7 +161,6 @@ class xmlParser:
         no_entry = []
 
         if seller_rating:
-            print(f'Found seller rating instances: {len(seller_rating)}')
             return seller_rating
         else:
             no_entry.append("NaN")
@@ -175,7 +174,6 @@ class xmlParser:
         no_entry = []
 
         if shipping_origin:
-            print(f'Shipping Origin instances found: {len(shipping_origin)}')
             return shipping_origin
         else:
             no_entry.append("NaN")

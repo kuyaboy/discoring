@@ -1,15 +1,15 @@
 import json
 import os
-from src.mongodb.database import Database
+from mongodb.database import Database
 
 def delete_orphaned_documents():
     directory = os.path.join(os.getcwd(), 'src', 'data', 'listings_json')
     filenames = os.listdir(directory)
 
+    collection = os.getenv('MONGODB_COLLECTION')
     mongodb = Database()
     mongodb.inititalize()
 
-    collection = os.getenv('MONGODB_COLLECTION')
     new_listing_ids = set()
 
     for file in filenames:

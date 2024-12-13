@@ -3,18 +3,10 @@ import json
 
 from datetime import datetime
 
-from src.webscraper.xml_parser import xmlParser
+from logger import get_logger
+from webscraper.xml_parser import xmlParser
 
-import logging
-import os
-import json
-from datetime import datetime
-
-# Assuming xmlParser is already defined somewhere in your code
-# from your_module import xmlParser
-
-# Configure logging
-logging.basicConfig(level=logging.ERROR, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = get_logger()
 
 def convert_wantlist_xml_to_dict():
     directory = os.path.join(os.getcwd(),
@@ -64,7 +56,7 @@ def convert_wantlist_xml_to_dict():
         if len(set(lengths)) > 1:
             error_msg = f"Lists don't have the same lengths {name}. Check .xml file " \
                         f"Lengths: {lengths}"
-            logging.error(error_msg)
+            logger.error(error_msg)
             raise ValueError(error_msg)
 
         # Build the listings if lengths are the same

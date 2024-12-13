@@ -2,8 +2,9 @@ import os
 
 import discogs_client
 
-from src.logger import logger
+from logger import get_logger
 
+logger = get_logger()
 
 class DiscogsWantlistClient:
     def __init__(self):

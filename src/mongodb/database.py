@@ -1,8 +1,9 @@
 import os
 
 import pymongo
+from logger import get_logger
 
-from src.logger import logger
+logger = get_logger()
 
 class Database(object):
     URI = os.getenv('MONGODB_URI')
