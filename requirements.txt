@@ -1,5 +1,9 @@
-discogs_client
+lxml
 pymongo
-selenium
+pyvirtualdisplay
+python3-discogs-client
+python-dotenv
 requests
-urllib
+regex
+selenium==4.25.0
+webdriver-manager
