@@ -1,17 +1,21 @@
-from src.logger import logger
-from src.scripts.convert_currency import convert_price_to_chf
-from src.scripts.convert_discogs_xml import convert_discogs_html_to_xml
-from src.scripts.convert_xml_to_dict import convert_wantlist_xml_to_dict
-from src.scripts.delete_documents import delete_orphaned_documents
-from src.scripts.update_documents import update_listings_in_mongodb
-from src.telegram.discoring_notifier import check_and_notify
+#!/opt/venv/bin/python3
+
+from logger import get_logger
+from scripts.convert_currency import convert_price_to_chf
+from scripts.convert_discogs_xml import convert_discogs_html_to_xml
+from scripts.convert_xml_to_dict import convert_wantlist_xml_to_dict
+from scripts.delete_documents import delete_orphaned_documents
+from scripts.update_documents import update_listings_in_mongodb
+from telegram.discoring_notifier import check_and_notify
 
 from dotenv import load_dotenv
 import time
 
 load_dotenv()
 
-if __name__ == "_main__":
+if __name__ == "__main__":
+    logger = get_logger()
+
     try:
         logger.info('Starting the scraping cycle.')
 

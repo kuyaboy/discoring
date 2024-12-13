@@ -1,7 +1,7 @@
 import json
 import os
 
-from src.mongodb.database import Database
+from mongodb.database import Database
 
 
 def update_listings_in_mongodb():

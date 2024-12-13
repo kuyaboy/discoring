@@ -3,7 +3,7 @@ import os
 import random
 import time
 
-from src.webscraper.discogs_scraper import DiscogsScraper
+from webscraper.discogs_scraper import DiscogsScraper
 
 
 def convert_discogs_html_to_xml():

@@ -1,5 +1,5 @@
-import os
 import logging
+import os
 import requests
 
 
@@ -15,23 +15,27 @@ class TelegramHandler(logging.Handler):
                              data=payload).content
 
 
-logger = logging.getLogger('discoring-logger')
-logger.setLevel(logging.DEBUG)
-logger.propagate = False
+def get_logger(name='discoring-logger'):
+    logger = logging.getLogger(name)
+    if not logger.hasHandlers():
+        logger.setLevel(logging.DEBUG)
+        logger.propagate = False
 
-if logger.hasHandlers():
-    logger.handlers.clear()
+        telegram_handler = TelegramHandler()
+        telegram_handler.setLevel(logging.ERROR)
 
-telegram_handler = TelegramHandler()
-telegram_handler.setLevel(logging.ERROR)
+        console_handler = logging.StreamHandler()
+        console_handler.setLevel(logging.DEBUG)
 
-console_handler = logging.StreamHandler()
-console_handler.setLevel(logging.DEBUG)
+        formatter = logging.Formatter(
+            '%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+            datefmt='%Y-%m-%d %H:%M:%S'
+        )
 
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+        console_handler.setFormatter(formatter)
+        telegram_handler.setFormatter(formatter)
 
-console_handler.setFormatter(formatter)
-telegram_handler.setFormatter(formatter)
+        logger.addHandler(console_handler)
+        logger.addHandler(telegram_handler)
 
-logger.addHandler(console_handler)
-logger.addHandler(telegram_handler)
+    return logger
