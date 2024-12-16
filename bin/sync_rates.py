@@ -1,6 +1,6 @@
-import os
-
+#!/opt/venv/bin/python3
 import json
+import os
 
 from src.forex.fxratesapi import get_currency_exchange_rate
 
