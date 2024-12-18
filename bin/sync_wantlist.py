@@ -2,8 +2,13 @@
 import json
 import os
 
+from dotenv import load_dotenv
+load_dotenv()
+
+from src.logger import get_logger
 from src.helper.filter_wantlist import wantlist_filter
 
+logger = get_logger()
 
 def sync_filtered_wantlist_to_json(filtered_wantlist):
     wantlist_export = filtered_wantlist
@@ -14,5 +19,7 @@ def sync_filtered_wantlist_to_json(filtered_wantlist):
 
 
 if __name__ == "__main__":
+    logger.debug('Attempting to sync wantlist')
     wantlist = wantlist_filter()
     sync_filtered_wantlist_to_json(wantlist)
+    logger.info('Successfully synced wantlist')

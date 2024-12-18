@@ -1,5 +1,9 @@
+#!/opt/venv/bin/python3
 import json
 import os
+
+from dotenv import load_dotenv
+load_dotenv()
 
 from src.mongodb.database import Database
 

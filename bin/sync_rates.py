@@ -2,6 +2,9 @@
 import json
 import os
 
+from dotenv import load_dotenv
+load_dotenv()
+
 from src.forex.fxratesapi import get_currency_exchange_rate
 
 def sync_chf_exchange_rates():

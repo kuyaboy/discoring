@@ -1,12 +1,14 @@
 import os
 import requests
 import urllib
-from mongodb.database import Database
-from mongodb.queries import get_query_les_nubiennes
-from mongodb.queries import get_query_return_of_the_devils_son
-from mongodb.queries import get_query_roads_out_the_ghetto
-from mongodb.queries import get_query_sun_kissed_lady
+from src.mongodb.database import Database
+from src.mongodb.queries import get_query_les_nubiennes
+from src.mongodb.queries import get_query_return_of_the_devils_son
+from src.mongodb.queries import get_query_roads_out_the_ghetto
+from src.mongodb.queries import get_query_sun_kissed_lady
 
+from logger import get_logger
+logger = get_logger()
 
 def check_and_notify():
     mongodb = Database()

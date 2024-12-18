@@ -1,5 +1,6 @@
 import time
 import random
+import os
 
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
@@ -8,7 +9,7 @@ from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.chrome.options import Options
 from lxml import etree, html
 
-from logger import get_logger
+from src.logger import get_logger
 
 logger = get_logger()
 
@@ -30,9 +31,11 @@ class DiscogsScraper:
     def get_by_release_id(self, wantlist):
         try:
 
-            for release in wantlist:
+           for release in wantlist:
                 release_id = release['release_id']
+                title = release['title']
 
+                logger.debug(f"Attempting to scrape '{title}'")
                 delay = random.uniform(3, 8)
                 time.sleep(delay)
 
@@ -44,9 +47,12 @@ class DiscogsScraper:
                 discogs_content = discogs_doc.xpath(
                     "//*[@id='pjax_container']/table")
 
-                with open(f'src\\data\\marketplace_listings\\{release_id}.xml', 'wb') as out:
+                file_path = os.path.join('src', 'data', 'marketplace_listings', f'{release_id}.xml')
+                with open(file_path, 'wb') as out:
                     out.write(etree.tostring(
-                         discogs_content[0], pretty_print=True, encoding='utf-8'))
+                        discogs_content[0], pretty_print=True, encoding='utf-8'))
+
+                logger.info(f"Successfully scraped '{title}'")
 
         except WebDriverException as e:
             logger.error(f'Error occurred: {e}')

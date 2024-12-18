@@ -2,7 +2,7 @@ import os
 
 import discogs_client
 
-from logger import get_logger
+from src.logger import get_logger
 
 logger = get_logger()
 

@@ -1,7 +1,7 @@
 import os
 import json
 
-from discogsclient.wantlist import DiscogsWantlistClient
+from src.discogsclient.wantlist import DiscogsWantlistClient
 
 
 def wantlist_filter():

@@ -18,6 +18,11 @@ def convert_wantlist_xml_to_dict():
                                     'listings_json')
 
     filenames = os.listdir(directory)
+
+    if len(filenames) < 1:
+        logger.error(f'Something went wrong. No files in: {directory}')
+        raise FileNotFoundError(f"No files were found in the directory: {directory}")
+
     parser = xmlParser()
 
     # Define keys
