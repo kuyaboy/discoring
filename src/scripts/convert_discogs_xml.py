@@ -8,7 +8,7 @@ from webscraper.discogs_scraper import DiscogsScraper
 
 def convert_discogs_html_to_xml():
     wantlist_path = os.path.join(os.getcwd(), 'src', 'data',
-                                 'filtered_wantlist', 'filtered_wantlist.json')
+                                 'filtered_wantlist', 'wantlist.json')
     with open(wantlist_path, 'r') as file:
         wantlist = json.load(file)
 
