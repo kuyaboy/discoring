@@ -34,8 +34,8 @@ class Database(object):
         return Database.DATABASE[collection].distinct("release_id")
 
     @staticmethod
-    def update_one(collection, query, update):
-        Database.DATABASE[collection].update_one(query, update)
+    def update_one(collection, query, update, upsert=False):
+        Database.DATABASE[collection].update_one(query, update, upsert=upsert)
 
     @staticmethod
     def delete_many(collection, query):

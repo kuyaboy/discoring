@@ -29,39 +29,28 @@ def update_listings_in_mongodb():
         seller_name = entries[record]['seller_name']
         media_condition = entries[record]['media_condition']
         sleeve_condition = entries[record]['sleeve_condition']
-        item_price_chf = entries[record]['item_price_chf']
-        shipping_price_chf = entries[record]['shipping_price_chf']
         item_price = entries[record]['item_price']
         shipping_price = entries[record]['shipping_price']
-        date = entries[record]['date']
 
         query = {
             '$and': [
-                {'listing_id': {'$eq': listing_id}},
-                {'seller_name': {'$eq': seller_name}},
+                {'listing_id': listing_id},
+                {'seller_name': seller_name},
                 {
                     '$or': [
                         {'item_price': {'$ne': item_price}},
                         {'shipping_price': {'$ne': shipping_price}},
                         {'media_condition': {'$ne': media_condition}},
-                        {'sleeve_condition': {'$ne': sleeve_condition}},
+                        {'sleeve_condition': {'$ne': sleeve_condition}}
                     ]
                 }
             ]
         }
         update = {
-            '$set': {
-                'item_price': item_price,
-                'shipping_price': shipping_price,
-                'media_condition': media_condition,
-                'sleeve_condition': sleeve_condition,
-                'date': date,
-                'item_price_chf': item_price_chf,
-                'shipping_price_chf': shipping_price_chf
-            }
+            '$set': entries[record]
         }
+        mongodb.update_one(collection, query, update, upsert=True)
 
-        mongodb.update_one(collection, query, update)
 
 
 if __name__ == "__main__":
