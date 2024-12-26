@@ -59,7 +59,7 @@ def convert_wantlist_xml_to_dict():
         ]
 
         if len(set(lengths)) > 1:
-            error_msg = f"Lists don't have the same lengths {name}. Check .xml file " \
+            error_msg = f"Lists of {name} don't have the same lengths. Check .xml file " \
                         f"Lengths: {lengths}"
             logger.error(error_msg)
             raise ValueError(error_msg)
