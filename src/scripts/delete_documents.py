@@ -2,6 +2,9 @@ import json
 import os
 from mongodb.database import Database
 
+from src.logger import get_logger
+logger = get_logger()
+
 def delete_orphaned_documents():
     directory = os.path.join(os.getcwd(), 'src', 'data', 'listings_json')
     filenames = os.listdir(directory)
@@ -22,7 +25,17 @@ def delete_orphaned_documents():
                 new_listing_ids.add(record['listing_id'])
 
     query = {'listing_id': {'$nin': list(new_listing_ids)}}
-    mongodb.delete_many(collection, query)
+
+    orphaned_documents = list(mongodb.find(collection, query))
+    if orphaned_documents:
+        for doc in orphaned_documents:
+            logger.info(f'The following document will get deleted: {doc}')
+
+        delete_result = mongodb.delete_many(collection, query)
+        logger.info(f"Deleted {delete_result.deleted_count} orphaned documents.")
+
+    else:
+        logger.info('No orphaned documents found')
 
 if __name__ == "__main__":
     delete_orphaned_documents()
