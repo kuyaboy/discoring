@@ -154,15 +154,15 @@ class xmlParser:
     def get_seller_rating(self, file_name):
         xml_file = self.load_xml_file(file_name)
 
-        seller_rating_pattern = r'<strong>([\d\.]+%)<\/strong>'
-        seller_rating = re.findall(seller_rating_pattern, xml_file, re.DOTALL)
-        no_entry = []
+        combined_seller_rating_pattern = (
+            r'<strong>([\d\.]+%)<\/strong>'
+            r'|<span class="muted">(New seller)</span>'
+        )
 
-        if seller_rating:
-            return seller_rating
-        else:
-            no_entry.append("NaN")
-            return no_entry
+        seller_matches = re.findall(combined_seller_rating_pattern, xml_file, re.DOTALL)
+        seller_rating = [match[0] if match[0] else match[1] for match in seller_matches]
+
+        return seller_rating if seller_rating else ["NaN"]
 
     def get_shipping_origin(self, file_name):
         xml_file = self.load_xml_file(file_name)
