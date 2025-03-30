@@ -17,6 +17,7 @@ def check_and_notify():
     sell_item_url = 'https://www.discogs.com/sell/item/'
 
     queries = get_queries()
+    logger.info(queries)
 
     query_results = []
 

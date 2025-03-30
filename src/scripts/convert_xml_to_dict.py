@@ -49,35 +49,34 @@ def convert_wantlist_xml_to_dict():
         shipping_origin_values = parser.get_shipping_origin(name)
 
         # Check if all lists are of the same length otherwise something with the parsing went wrong
-    lengths = [
-        len(listing_id_values), len(release_id_values),
-        len(record_name_values), len(artist_name_values),
-        len(media_condition_values), len(sleeve_condition_values),
-        len(currency_values), len(item_price_values),
-        len(seller_name_values), len(seller_rating_values),
-        len(shipping_price_values), len(shipping_origin_values)
-    ]
+        lengths = [
+            len(listing_id_values), len(release_id_values),
+            len(record_name_values), len(artist_name_values),
+            len(media_condition_values), len(sleeve_condition_values),
+            len(currency_values), len(item_price_values),
+            len(seller_name_values), len(seller_rating_values),
+            len(shipping_price_values), len(shipping_origin_values)
+        ]
 
-    if len(set(lengths)) > 1:
-        error_msg = (
-            f"Lists of {name} don't have the same lengths. Check .xml file:\n"
-            f"Listing ID: {lengths[0]}\n"
-            f"Release ID: {lengths[1]}\n"
-            f"Record Name: {lengths[2]}\n"
-            f"Artist Name: {lengths[3]}\n"
-            f"Media Condition: {lengths[4]}\n"
-            f"Sleeve Condition: {lengths[5]}\n"
-            f"Currency: {lengths[6]}\n"
-            f"Item Price: {lengths[7]}\n"
-            f"Seller Name: {lengths[8]}\n"
-            f"Seller Rating: {lengths[9]}\n"
-            f"Shipping Price: {lengths[10]}\n"
-            f"Shipping Origin: {lengths[11]}"
-        )
+        if len(set(lengths)) > 1:
+            error_msg = (
+                f"Lists of {name} don't have the same lengths. Check .xml file:\n"
+                f"Listing ID: {lengths[0]}\n"
+                f"Release ID: {lengths[1]}\n"
+                f"Record Name: {lengths[2]}\n"
+                f"Artist Name: {lengths[3]}\n"
+                f"Media Condition: {lengths[4]}\n"
+                f"Sleeve Condition: {lengths[5]}\n"
+                f"Currency: {lengths[6]}\n"
+                f"Item Price: {lengths[7]}\n"
+                f"Seller Name: {lengths[8]}\n"
+                f"Seller Rating: {lengths[9]}\n"
+                f"Shipping Price: {lengths[10]}\n"
+                f"Shipping Origin: {lengths[11]}"
+            )
 
-        logger.error(error_msg)
-        raise ValueError(error_msg)
-
+            logger.error(error_msg)
+            raise ValueError(error_msg)
 
         # Build the listings if lengths are the same
         listings = []

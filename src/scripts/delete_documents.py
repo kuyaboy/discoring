@@ -29,10 +29,10 @@ def delete_orphaned_documents():
     orphaned_documents = list(mongodb.find(collection, query))
     if orphaned_documents:
         for doc in orphaned_documents:
-            logger.info(f'The following document will get deleted: {doc}')
+            logger.debug(f'The following document will get deleted: {doc}')
 
-        delete_result = mongodb.delete_many(collection, query)
-        logger.info(f"Deleted {delete_result.deleted_count} orphaned documents.")
+        mongodb.delete_many(collection, query)
+        logger.info(f"Deleted orphaned documents from MongoDB.")
 
     else:
         logger.info('No orphaned documents found')

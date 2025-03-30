@@ -37,7 +37,7 @@ def update_listings_in_mongodb():
                 {'listing_id': listing_id},
                 {'seller_name': seller_name},
                 {
-                    '$or': [
+                    '$and': [
                         {'item_price': {'$ne': item_price}},
                         {'shipping_price': {'$ne': shipping_price}},
                         {'media_condition': {'$ne': media_condition}},
