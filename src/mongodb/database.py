@@ -32,6 +32,10 @@ class Database(object):
         return Database.DATABASE[collection].find(query)
 
     @staticmethod
+    def find_one(collection, query):
+        return Database.DATABASE[collection].find_one(query)
+
+    @staticmethod
     def find_release_id(collection):
         return Database.DATABASE[collection].distinct("release_id")
 
