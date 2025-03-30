@@ -10,15 +10,13 @@ logger = get_logger()
 
 def check_and_notify():
     mongodb = Database()
-    mongodb.inititalize()
+    mongodb.initialize()
 
     collection = os.getenv('MONGODB_COLLECTION')
     chat_url = os.getenv('TELEGRAM_CHAT_URL')
     sell_item_url = 'https://www.discogs.com/sell/item/'
 
     queries = get_queries()
-    logger.info(queries)
-
     query_results = []
 
     for query in queries.values():
