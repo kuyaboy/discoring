@@ -13,7 +13,7 @@ def update_listings_in_mongodb():
     filenames = os.listdir(directory)
 
     mongodb = Database()
-    mongodb.inititalize()
+    mongodb.initialize()
 
     entries = []
 

@@ -11,7 +11,7 @@ def delete_orphaned_documents():
 
     collection = os.getenv('MONGODB_COLLECTION')
     mongodb = Database()
-    mongodb.inititalize()
+    mongodb.initialize()
 
     new_listing_ids = set()
 

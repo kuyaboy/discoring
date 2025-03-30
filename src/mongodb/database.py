@@ -1,7 +1,8 @@
 import os
 
-import pymongo
-from logger import get_logger
+from pymongo.mongo_client import MongoClient
+from pymongo.server_api import ServerApi
+from src.logger import get_logger
 
 logger = get_logger()
 
@@ -10,14 +11,15 @@ class Database(object):
     DATABASE = None
 
     @staticmethod
-    def inititalize():
+    def initialize():
+        client = MongoClient(Database.URI, server_api=ServerApi('1'))
 
         try:
-            client = pymongo.MongoClient(Database.URI)
             client.admin.command('ping')
             Database.DATABASE = client[os.getenv('MONGODB_NAME')]
+            logger.info('Successfully connected to MongoDB')
 
-        except pymongo.errors.ConnectionFailure as e:
+        except Exception as e:
             logger.error(f'Failed to connect to MongoDB: {e}')
             raise
 

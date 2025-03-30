@@ -15,7 +15,6 @@ def import_listings_to_mongodb():
 
     collection = os.getenv('MONGODB_COLLECTION')
     filenames = os.listdir(directory)
-    print(filenames)
 
     mongodb = Database()
     mongodb.inititalize()
