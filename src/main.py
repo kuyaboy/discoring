@@ -38,7 +38,6 @@ if __name__ == "__main__":
 
         logger.debug('Deleting orphaned documents.')
         delete_orphaned_documents()
-        logger.info('Successfully deleted orphaned documents.')
 
         logger.debug('Querying MongoDB for good sales.')
         check_and_notify()
