@@ -1,13 +1,9 @@
-import json
 import os
-
-from mongodb.database import Database
-
+import json
+from mongodb.database import Database  # Assuming you have a Database class handling MongoDB connections
 
 def update_listings_in_mongodb():
-    directory = os.path.join(os.getcwd(),
-                             'src', 'data',
-                             'listings_json')
+    directory = os.path.join(os.getcwd(), 'src', 'data', 'listings_json')
 
     collection = os.getenv('MONGODB_COLLECTION')
     filenames = os.listdir(directory)
@@ -15,43 +11,29 @@ def update_listings_in_mongodb():
     mongodb = Database()
     mongodb.initialize()
 
-    entries = []
-
     for file in filenames:
         file_path = os.path.join(directory, file)
         with open(file_path, 'r') as listing:
             data = json.load(listing)
-            data_list = list(data)
-            entries.extend(data_list)
 
-    for record in range(len(entries)):
-        listing_id = entries[record]['listing_id']
-        seller_name = entries[record]['seller_name']
-        media_condition = entries[record]['media_condition']
-        sleeve_condition = entries[record]['sleeve_condition']
-        item_price = entries[record]['item_price']
-        shipping_price = entries[record]['shipping_price']
+        for record in data:
+            listing_id = record['listing_id']
+            seller_name = record['seller_name']
 
-        query = {
-            '$and': [
-                {'listing_id': listing_id},
-                {'seller_name': seller_name},
-                {
-                    '$and': [
-                        {'item_price': {'$ne': item_price}},
-                        {'shipping_price': {'$ne': shipping_price}},
-                        {'media_condition': {'$ne': media_condition}},
-                        {'sleeve_condition': {'$ne': sleeve_condition}}
-                    ]
-                }
-            ]
-        }
-        update = {
-            '$set': entries[record]
-        }
-        mongodb.update_one(collection, query, update, upsert=True)
+            existing_entry = mongodb.find_one(collection, {'listing_id': listing_id, 'seller_name': seller_name})
 
+            if existing_entry:
+                # Check if any of the relevant fields have changed from the collection compared to the new dictionary
+                if (existing_entry.get('item_price') != record['item_price'] or
+                    existing_entry.get('shipping_price') != record['shipping_price'] or
+                    existing_entry.get('media_condition') != record['media_condition'] or
+                    existing_entry.get('sleeve_condition') != record['sleeve_condition']):
 
+                    # Update the document only if a field has changed
+                    update_query = {'listing_id': listing_id, 'seller_name': seller_name}
+                    update_data = {'$set': record}
+
+                    mongodb.update_one(collection, update_query, update_data, upsert=True)
 
 if __name__ == "__main__":
     update_listings_in_mongodb()
