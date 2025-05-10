@@ -16,9 +16,11 @@ ENV PATH="/opt/venv/bin:$PATH"
 # set up the working directory
 WORKDIR /app
 
-# copy the project into /app/
+# copy the project into /app/ and give ownership to seluser who also runs this script
 COPY . /app/
-
+RUN chown -R seluser:seluser /app
+# set pythonpath to app
+ENV PYTHONPATH=/app
 # install dependencies from requirements.txt
 RUN pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir -r requirements.txt
 
@@ -35,5 +37,4 @@ COPY docker-entrypoint.sh /app/docker-entrypoint.sh
 RUN chmod +x /app/docker-entrypoint.sh
 
 # run docker-entrypoint shell script
-CMD ["/app/docker-entrypoint.sh"]
-
+CMD ["bash", "-c", "/app/docker-entrypoint.sh && tail -f /dev/null"]
