@@ -3,6 +3,14 @@
         "artist" : "Les Nubians",
         "title" : "Princesses Nubiennes",
         "year" : 1998,
-        "format" : "Vinyl"
+        "format" : "Vinyl",
+        "country": "France"
+    },
+    {
+        "artist" : "Mr. Smith",
+        "title" : "LL Cool J",
+        "year" : 1995,
+        "format" : "Vinyl",
+        "country": "US"
     }
 ]
