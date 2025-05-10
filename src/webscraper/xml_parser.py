@@ -140,15 +140,13 @@ class xmlParser:
     def get_seller_name(self, file_name):
         xml_file = self.load_xml_file(file_name)
 
-        seller_name_pattern = r'data-seller-username="(.*?)"'
+        seller_name_pattern = r'/seller/(.*?)/profile'
         seller_name_matches = re.findall(
             seller_name_pattern, xml_file, re.DOTALL)
         no_entry = []
 
         if seller_name_matches:
-            # remove every second entry since it contains desktop + mobile listings
-            seller_name = seller_name_matches[::2]
-            return seller_name
+            return seller_name_matches
         else:
             no_entry.append("NaN")
             return no_entry
@@ -156,15 +154,15 @@ class xmlParser:
     def get_seller_rating(self, file_name):
         xml_file = self.load_xml_file(file_name)
 
-        seller_rating_pattern = r'<strong>([\d\.]+%)<\/strong>'
-        seller_rating = re.findall(seller_rating_pattern, xml_file, re.DOTALL)
-        no_entry = []
+        combined_seller_rating_pattern = (
+            r'<strong>([\d\.]+%)<\/strong>'
+            r'|<span class="muted">(New seller)</span>'
+        )
 
-        if seller_rating:
-            return seller_rating
-        else:
-            no_entry.append("NaN")
-            return no_entry
+        seller_matches = re.findall(combined_seller_rating_pattern, xml_file, re.DOTALL)
+        seller_rating = [match[0] if match[0] else match[1] for match in seller_matches]
+
+        return seller_rating if seller_rating else ["NaN"]
 
     def get_shipping_origin(self, file_name):
         xml_file = self.load_xml_file(file_name)
@@ -184,17 +182,19 @@ class xmlParser:
 
         # Define combined regex pattern for shipping prices and unavailable messages
         combined_shipping_price_pattern = (
-            # cases like +CHF / match[0]
+            # cases like +CHF
             r'<span class="hide_mobile item_shipping">\s*[+][A-Z]{3}(\d+\.\d+)'
-            # cases like +CA$40.00 / match[1]
+            # cases like +CA$40.00
             r'|<span class="hide_mobile item_shipping">\s*[+][A-Z]{2}\p{Sc}(\d+\.\d+)'
             # cases like +A$50.00
             r'|<span class="hide_mobile item_shipping">\s*[+][A-Z]{1}\p{Sc}(\d+\.\d+)'
-            # cases like +$ / match[2]
+            # cases like +$
             r'|<span class="hide_mobile item_shipping">\s*[+]\p{Sc}(\d+\.\d+)'
-            # cases like +¥1,690 / match [2]
+            # cases like +¥1,690
             r'|<span class="hide_mobile item_shipping">\s*[+]\p{Sc}(\d+\,\d+)'
-            # cases like Unavailable in Philippines / match[3]'
+            # cases like '+no extra shipping'
+            r'|<span class="hide_mobile item_shipping">\s*[+](no extra shipping)'
+            # cases like Unavailable in Philippines
             r'|<p class="hide-desktop muted">\s*(Unavailable in .*?)\s*</p>'
         )
 

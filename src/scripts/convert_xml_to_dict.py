@@ -18,6 +18,11 @@ def convert_wantlist_xml_to_dict():
                                     'listings_json')
 
     filenames = os.listdir(directory)
+
+    if len(filenames) < 1:
+        logger.error(f'Something went wrong. No files in: {directory}')
+        raise FileNotFoundError(f"No files were found in the directory: {directory}")
+
     parser = xmlParser()
 
     # Define keys
@@ -54,8 +59,22 @@ def convert_wantlist_xml_to_dict():
         ]
 
         if len(set(lengths)) > 1:
-            error_msg = f"Lists don't have the same lengths {name}. Check .xml file " \
-                        f"Lengths: {lengths}"
+            error_msg = (
+                f"Lists of {name} don't have the same lengths. Check .xml file:\n"
+                f"Listing ID: {lengths[0]}\n"
+                f"Release ID: {lengths[1]}\n"
+                f"Record Name: {lengths[2]}\n"
+                f"Artist Name: {lengths[3]}\n"
+                f"Media Condition: {lengths[4]}\n"
+                f"Sleeve Condition: {lengths[5]}\n"
+                f"Currency: {lengths[6]}\n"
+                f"Item Price: {lengths[7]}\n"
+                f"Seller Name: {lengths[8]}\n"
+                f"Seller Rating: {lengths[9]}\n"
+                f"Shipping Price: {lengths[10]}\n"
+                f"Shipping Origin: {lengths[11]}"
+            )
+
             logger.error(error_msg)
             raise ValueError(error_msg)
 

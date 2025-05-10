@@ -1,6 +1,9 @@
+#!/opt/venv/bin/python3
+import json
 import os
 
-import json
+from dotenv import load_dotenv
+load_dotenv()
 
 from src.forex.fxratesapi import get_currency_exchange_rate
 

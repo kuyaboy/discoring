@@ -1,28 +1,16 @@
 [
     {
-        "artist" : "Nightbreed",
-        "title" : "2 Roads Out The Ghetto",
-        "year" : 1998,
-        "format" : "Vinyl"
-    },
-
-    {
-        "artist" : "Natsu Summer",
-        "title" : "Sun Kissed Lady",
-        "year" : 2022,
-        "format" : "Vinyl"
-    },
-
-    {
-        "artist" : "Big L",
-        "title" : "Return Of The Devils Son",
-        "year" : 2011,
-        "format" : "Vinyl"
-    },
-    {
         "artist" : "Les Nubians",
         "title" : "Princesses Nubiennes",
         "year" : 1998,
-        "format" : "Vinyl"
+        "format" : "Vinyl",
+        "country": "France"
+    },
+    {
+        "artist" : "Mr. Smith",
+        "title" : "LL Cool J",
+        "year" : 1995,
+        "format" : "Vinyl",
+        "country": "US"
     }
 ]

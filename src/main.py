@@ -34,11 +34,9 @@ if __name__ == "__main__":
 
         logger.debug('Updating listings in MongoDB.')
         update_listings_in_mongodb()
-        logger.info('Successfully updated listings in MongoDB.')
 
         logger.debug('Deleting orphaned documents.')
         delete_orphaned_documents()
-        logger.info('Successfully deleted orphaned documents.')
 
         logger.debug('Querying MongoDB for good sales.')
         check_and_notify()

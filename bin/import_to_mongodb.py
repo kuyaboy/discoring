@@ -1,5 +1,9 @@
+#!/opt/venv/bin/python3
 import json
 import os
+
+from dotenv import load_dotenv
+load_dotenv()
 
 from src.mongodb.database import Database
 
@@ -11,7 +15,6 @@ def import_listings_to_mongodb():
 
     collection = os.getenv('MONGODB_COLLECTION')
     filenames = os.listdir(directory)
-    print(filenames)
 
     mongodb = Database()
     mongodb.inititalize()
