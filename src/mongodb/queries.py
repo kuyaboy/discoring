@@ -12,5 +12,6 @@ def create_query(record_name, item_price_chf, shipping_price_chf):
 
 def get_queries():
     return {
-        'princesses_nubiennes': create_query('Princesses Nubiennes', 80, 80)
+        'princesses_nubiennes': create_query('Princesses Nubiennes', 80, 80),
+        'sun_kissed_lady': create_query('Sun Kissed Lady', 45, 15)
     }
