@@ -1,3 +1,4 @@
+import html
 import logging
 import os
 import requests
@@ -6,9 +7,11 @@ import requests
 class TelegramHandler(logging.Handler):
     def emit(self, record):
         log_entry = self.format(record)
+        # otherwise error tags like '<>' cause issues
+        log_entry_escaped = html.escape(log_entry)
         payload = {
             'chat_id': os.getenv('TELEGRAM_CHAT_ID'),
-            'text': log_entry,
+            'text': log_entry_escaped,
             'parse_mode': 'HTML'
         }
         return requests.post(f"https://api.telegram.org/bot{os.getenv('TELEGRAM_API_TOKEN')}/sendMessage",
