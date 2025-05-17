@@ -1,7 +1,7 @@
-#!/opt/venv/bin/python3
 import time
-
+import random
 from dotenv import load_dotenv
+
 load_dotenv()
 
 from logger import get_logger
@@ -12,39 +12,46 @@ from scripts.delete_documents import delete_orphaned_documents
 from scripts.update_documents import update_listings_in_mongodb
 from telegram.discoring_notifier import check_and_notify
 
+logger = get_logger()
+
+def run_cycle():
+    logger.info('Starting the scraping cycle.')
+    start_time = time.time()
+
+    logger.debug('Converting scraped Discogs HTML to XML.')
+    convert_discogs_html_to_xml()
+    logger.info('Successfully converted Discogs HTML to XML.')
+
+    logger.debug('Converting wantlist XML to dictionary.')
+    convert_wantlist_xml_to_dict()
+    logger.info('Successfully converted wantlist XML to dictionary.')
+
+    logger.debug('Converting prices to CHF.')
+    convert_price_to_chf()
+    logger.info('Successfully converted prices to CHF.')
+
+    logger.debug('Updating listings in MongoDB.')
+    update_listings_in_mongodb()
+
+    logger.debug('Deleting orphaned documents.')
+    delete_orphaned_documents()
+
+    logger.debug('Querying MongoDB for good sales.')
+    check_and_notify()
+    logger.info('Successfully notified in the event of a good sale.')
+
+    end_time = time.time()
+    execution_time = end_time - start_time
+    logger.info(f'Scraping cycle completed in {execution_time:.2f} seconds.')
+
 if __name__ == "__main__":
-    logger = get_logger()
+    while True:
+        try:
+            run_cycle()
+        except Exception as e:
+            logger.error(f'An error occurred during the scraping process: {str(e)}', exc_info=True)
 
-    try:
-        logger.info('Starting the scraping cycle.')
-
-        start_time = time.time()
-
-        logger.debug('Converting scraped Discogs HTML to XML.')
-        convert_discogs_html_to_xml()
-        logger.info('Successfully converted Discogs HTML to XML.')
-
-        logger.debug('Converting wantlist XML to dictionary.')
-        convert_wantlist_xml_to_dict()
-        logger.info('Successfully converted wantlist XML to dictionary.')
-
-        logger.debug('Converting prices to CHF.')
-        convert_price_to_chf()
-        logger.info('Successfully converted prices to CHF.')
-
-        logger.debug('Updating listings in MongoDB.')
-        update_listings_in_mongodb()
-
-        logger.debug('Deleting orphaned documents.')
-        delete_orphaned_documents()
-
-        logger.debug('Querying MongoDB for good sales.')
-        check_and_notify()
-        logger.info('Successfully notified in the event of a good sale.')
-
-        end_time = time.time()
-        execution_time = end_time - start_time
-        logger.info(f'Scraping cycle completed in {execution_time:.2f} seconds.')
-
-    except Exception as e:
-        logger.error(f'An error occurred during the scraping process: {str(e)}', exc_info=True)
+        # Wait between 4 to 8 minutes before running again
+        wait_time = random.randint(240, 480)
+        logger.info(f'Waiting {wait_time} seconds before the next cycle...')
+        time.sleep(wait_time)
