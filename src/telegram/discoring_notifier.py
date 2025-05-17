@@ -13,6 +13,7 @@ def check_and_notify():
     mongodb.initialize()
 
     collection = os.getenv('MONGODB_COLLECTION')
+    collection_messages = os.getenv('MONGODB_COLLECTION_MESSAGES')
     chat_url = os.getenv('TELEGRAM_CHAT_URL')
     sell_item_url = 'https://www.discogs.com/sell/item/'
 
@@ -49,6 +50,11 @@ def check_and_notify():
 
             encoded_text = urllib.parse.quote_plus(text)
 
-            requests.get(f"{chat_url}{encoded_text}", params={"parse_mode": "Markdown"})
+            existing_entry = mongodb.find_one(collection_messages, {'text': encoded_text})
+
+            if not existing_entry:
+                message_dict = {"text": encoded_text}
+                mongodb.insert(collection_messages, message_dict)
+                requests.get(f"{chat_url}{encoded_text}", params={"parse_mode": "Markdown"})
 
 
