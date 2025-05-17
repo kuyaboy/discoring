@@ -35,7 +35,7 @@ def wantlist_filter():
             ):
                 filtered.append({
                     "release_id": release_id,
-                    "artist": artists,  # just the first artist's name
+                    "artist": artists,
                     "title": title,
                     "year": year,
                     "format": formats,
