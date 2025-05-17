@@ -45,13 +45,14 @@ def run_cycle():
     logger.info(f'Scraping cycle completed in {execution_time:.2f} seconds.')
 
 if __name__ == "__main__":
-    while True:
-        try:
+    try:
+        while True:
             run_cycle()
-        except Exception as e:
-            logger.error(f'An error occurred during the scraping process: {str(e)}', exc_info=True)
 
-        # Wait between 4 to 8 minutes before running again
-        wait_time = random.randint(240, 480)
-        logger.info(f'Waiting {wait_time} seconds before the next cycle...')
-        time.sleep(wait_time)
+            # Wait between 4 to 8 minutes before running again
+            wait_time = random.randint(240, 480)
+            logger.info(f'Waiting {wait_time} seconds before the next cycle...')
+            time.sleep(wait_time)
+
+    except Exception as e:
+        logger.error(f'Fatal error: {str(e)}', exc_info=True)
