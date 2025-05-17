@@ -29,6 +29,9 @@ ADD cronjob /etc/cronjob
 RUN chmod 0644 /etc/cronjob
 RUN crontab /etc/cronjob
 
+RUN chmod +x /app/bin/import_to_mongodb.py
+RUN chmod +x /app/bin/sync_rates.py
+
 # ensure correct permissions for /tmp/.X11-unix to prevent Xvfb from issuing warnings
 RUN mkdir -p /tmp/.X11-unix && chmod 1777 /tmp/.X11-unix
 

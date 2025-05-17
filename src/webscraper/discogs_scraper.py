@@ -47,8 +47,13 @@ class DiscogsScraper:
                 discogs_content = discogs_doc.xpath(
                     "//*[@id='pjax_container']/table")
 
-                file_path = os.path.join('src', 'data', 'marketplace_listings', f'{release_id}.xml')
-                with open(file_path, 'wb') as out:
+                output_directory_path = os.path.join('src', 'data', 'marketplace_listings')
+                output_file_path = os.path.join(output_directory_path, f'{release_id}.xml')
+
+                if not os.path.exists(output_directory_path):
+                    os.makedirs(output_directory_path)
+
+                with open(output_file_path, 'wb') as out:
                     out.write(etree.tostring(
                         discogs_content[0], pretty_print=True, encoding='utf-8'))
 

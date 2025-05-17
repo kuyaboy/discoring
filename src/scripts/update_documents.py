@@ -1,6 +1,6 @@
 import os
 import json
-from mongodb.database import Database  # Assuming you have a Database class handling MongoDB connections
+from mongodb.database import Database
 from logger import get_logger
 
 logger = get_logger()
@@ -27,6 +27,7 @@ def update_listings_in_mongodb():
             existing_entry = mongodb.find_one(collection, {'listing_id': listing_id, 'seller_name': seller_name})
 
             if existing_entry:
+                logger.info('')
                 # Check if any of the relevant fields have changed from the collection compared to the new dictionary
                 if (existing_entry.get('item_price') != record.get('item_price') or
                     existing_entry.get('shipping_price') != record.get('shipping_price') or
@@ -41,7 +42,12 @@ def update_listings_in_mongodb():
                     logger.info(f'Successfully updated: {record}')
 
                 else:
-                    logger.info(f'No listings to update for {record_name}')
+                    logger.info(f'No listings to update for {record_name} with listing_id: {listing_id}')
+
+            else:
+                mongodb.insert(collection, record)
+                logger.info(f'Added new entry for: {record["record_name"]}')
+
 
 if __name__ == "__main__":
     update_listings_in_mongodb()

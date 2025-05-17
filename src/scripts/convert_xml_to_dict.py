@@ -17,6 +17,9 @@ def convert_wantlist_xml_to_dict():
                                     'src', 'data',
                                     'listings_json')
 
+    if not os.path.exists(output_directory):
+        os.makedirs(output_directory)
+
     filenames = os.listdir(directory)
 
     if len(filenames) < 1:

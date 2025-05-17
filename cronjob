@@ -1,2 +1,1 @@
-5 * * * * /opt/venv/bin/python3 /src/main.py
 0 12 * * * /opt/venv/bin/python3 /bin/sync_rates.py
