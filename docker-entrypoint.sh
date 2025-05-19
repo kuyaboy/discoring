@@ -15,6 +15,14 @@ fi
 echo "Starting cronjob"
 service cron start
 
+echo "Syncing exchange rates..."
+
+su seluser -c "/app/bin/sync_rates.sh"
+if [ $? -ne 0 ]; then
+    echo "sync_rates.sh failed. Exiting."
+    exit 1
+fi
+
 echo "Running sync_wantlist.py..."
 
 su seluser -c "/opt/venv/bin/python /app/bin/sync_wantlist.py"

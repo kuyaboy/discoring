@@ -3,7 +3,7 @@ FROM selenium/standalone-chrome:129.0
 USER root
 
 # install Python3, pip, venv, Xvfb and cron
-RUN apt-get update && apt-get install -y python3-pip python3-venv xvfb build-essential libffi-dev python3-dev cron && apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y python3-pip python3-venv xvfb build-essential libffi-dev python3-dev cron jq && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # set Python-related environment variables
 ENV PYTHONUNBUFFERED=1
@@ -30,7 +30,7 @@ RUN chmod 0644 /etc/cronjob
 RUN crontab /etc/cronjob
 
 RUN chmod +x /app/bin/import_to_mongodb.py
-RUN chmod +x /app/bin/sync_rates.py
+RUN chmod +x /app/bin/sync_rates.sh
 
 # ensure correct permissions for /tmp/.X11-unix to prevent Xvfb from issuing warnings
 RUN mkdir -p /tmp/.X11-unix && chmod 1777 /tmp/.X11-unix

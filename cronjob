@@ -1,1 +1,1 @@
-0 12 * * * /opt/venv/bin/python3 /bin/sync_rates.py
+0 12 * * * /app/bin/sync_rates.sh
