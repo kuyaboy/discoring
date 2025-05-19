@@ -66,7 +66,7 @@ Download and install [Docker](https://docs.docker.com/get-started/get-docker/)
 
 #### Environment Variables
 
-Before running the program, ensure that a .env file is created in the root directory of the project. This file should contain the following environment variables:
+Before running the program, ensure that a `.env` file is created in the root directory of the project. This file should contain the following environment variables:
 
 ```.env
 DISCOGS_USER_TOKEN=
@@ -84,7 +84,7 @@ TELEGRAM_CHAT_URL=
 
 #### Records to track config
 
-In the */src/config* directory, locate the file named wantlist_filter_config.json.
+In the */src/config* directory, locate the file named `wantlist_filter_config.json`.
 
 Replace the sample entries with the records from your wantlist that you want to monitor. Use the following JSON structure:
 
