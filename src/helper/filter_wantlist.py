@@ -6,7 +6,7 @@ def wantlist_filter():
     discogs_client = DiscogsWantlistClient()
     wantlist = discogs_client.get_wantlist()
 
-    filter_config_path = os.path.join(os.getcwd(), 'src', 'config', 'wantlist_filter_config.json')
+    filter_config_path = os.path.join(os.getcwd(), 'src', 'config', 'monitoring_list.json')
     with open(filter_config_path, 'r') as file:
         filter_config = json.load(file)
 
