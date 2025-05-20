@@ -9,7 +9,7 @@ def delete_orphaned_documents():
     directory = os.path.join(os.getcwd(), 'src', 'data', 'listings_json')
     filenames = os.listdir(directory)
 
-    collection = os.getenv('MONGODB_COLLECTION')
+    collection_listings = os.getenv('MONGODB_COLLECTION_LISTINGS')
     mongodb = Database()
     mongodb.initialize()
 
@@ -26,13 +26,14 @@ def delete_orphaned_documents():
 
     query = {'listing_id': {'$nin': list(new_listing_ids)}}
 
-    orphaned_documents = list(mongodb.find(collection, query))
+    orphaned_documents = list(mongodb.find(collection_listings, query))
     if orphaned_documents:
         for doc in orphaned_documents:
             logger.debug(f'The following document will get deleted: {doc}')
 
-        mongodb.delete_many(collection, query)
+        mongodb.delete_many(collection_listings, query)
         logger.info(f"Deleted orphaned documents from MongoDB.")
+        mongodb.close()
 
     else:
         logger.info('No orphaned documents found')

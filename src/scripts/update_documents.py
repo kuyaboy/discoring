@@ -8,7 +8,7 @@ logger = get_logger()
 def update_listings_in_mongodb():
     directory = os.path.join(os.getcwd(), 'src', 'data', 'listings_json')
 
-    collection = os.getenv('MONGODB_COLLECTION')
+    collection_listings = os.getenv('MONGODB_COLLECTION_LISTINGS')
     filenames = os.listdir(directory)
 
     mongodb = Database()
@@ -24,11 +24,11 @@ def update_listings_in_mongodb():
             seller_name = record['seller_name']
             record_name = record['record_name']
 
-            existing_entry = mongodb.find_one(collection, {'listing_id': listing_id, 'seller_name': seller_name})
+            existing_entry = mongodb.find_one(collection_listings, {'listing_id': listing_id, 'seller_name': seller_name})
 
             if existing_entry:
                 logger.info('')
-                # Check if any of the relevant fields have changed from the collection compared to the new dictionary
+                # Check if any of the relevant fields have changed from the collection_listings compared to the new dictionary
                 if (existing_entry.get('item_price') != record.get('item_price') or
                     existing_entry.get('shipping_price') != record.get('shipping_price') or
                     existing_entry.get('media_condition') != record.get('media_condition') or
@@ -38,14 +38,15 @@ def update_listings_in_mongodb():
                     update_query = {'listing_id': listing_id, 'seller_name': seller_name}
                     update_data = {'$set': record}
                     logger.debug(f'Updating: {record}')
-                    mongodb.update_one(collection, update_query, update_data, upsert=True)
+                    mongodb.update_one(collection_listings, update_query, update_data, upsert=True)
                     logger.info(f'Successfully updated: {record}')
+                    mongodb.close()
 
                 else:
                     logger.info(f'No listings to update for {record_name} with listing_id: {listing_id}')
 
             else:
-                mongodb.insert(collection, record)
+                mongodb.insert(collection_listings, record)
                 logger.info(f'Added new entry for: {record["record_name"]}')
 
 

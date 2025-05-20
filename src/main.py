@@ -1,3 +1,4 @@
+#!/opt/venv/bin/python3
 import time
 import random
 from dotenv import load_dotenv
@@ -10,7 +11,7 @@ from scripts.convert_discogs_xml import convert_discogs_html_to_xml
 from scripts.convert_xml_to_dict import convert_wantlist_xml_to_dict
 from scripts.delete_documents import delete_orphaned_documents
 from scripts.update_documents import update_listings_in_mongodb
-from telegram.discoring_notifier import check_and_notify
+from telegram.notifier import check_and_notify
 
 logger = get_logger()
 

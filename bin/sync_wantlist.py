@@ -10,6 +10,7 @@ from src.helper.filter_wantlist import wantlist_filter
 
 logger = get_logger()
 
+
 def sync_filtered_wantlist_to_json(filtered_wantlist):
     wantlist_export = filtered_wantlist
     new_json_path = os.path.join(os.getcwd(), 'src', 'data', 'filtered_wantlist')
