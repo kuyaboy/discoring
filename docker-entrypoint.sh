@@ -25,11 +25,11 @@ fi
 
 echo "Running sync_wantlist.py..."
 
-su seluser -c "/opt/venv/bin/python /app/bin/sync_wantlist.py"
+su seluser -c "/app/bin/sync_wantlist.py"
 if [ $? -ne 0 ]; then
     echo "sync_wantlist.py failed. Exiting."
     exit 1
 fi
 
 echo "Starting Discoring script..."
-su seluser -c "/opt/venv/bin/python /app/src/main.py"
+su seluser -c "/app/src/main.py"
