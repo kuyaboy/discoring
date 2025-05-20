@@ -1,4 +1,4 @@
-FROM selenium/standalone-chrome:129.0
+FROM selenium/standalone-chrome:135.0
 
 USER root
 
@@ -29,8 +29,9 @@ ADD cronjob /etc/cronjob
 RUN chmod 0644 /etc/cronjob
 RUN crontab /etc/cronjob
 
-RUN chmod +x /app/bin/import_to_mongodb.py
+RUN chmod +x /app/bin/empty_collection.py
 RUN chmod +x /app/bin/sync_rates.sh
+RUN chmod +x /app/src/main.py
 
 # ensure correct permissions for /tmp/.X11-unix to prevent Xvfb from issuing warnings
 RUN mkdir -p /tmp/.X11-unix && chmod 1777 /tmp/.X11-unix
