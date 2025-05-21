@@ -2,3 +2,4 @@
 __pycache__
 /venv
 /src/config/exchange_rates.json
+/src/data/
