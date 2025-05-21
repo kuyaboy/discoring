@@ -1,10 +1,10 @@
 # Discoring
 
-This project serves as an automated monitoring tool for good sales on Discogs.com of desired records — so we don't have to spend all our free time scrolling through Discogs 😁
+This scraper serves as an automated monitoring tool for good sales on Discogs.com of desired records — so we don't have to spend all our free time scrolling through Discogs 😁
 
 ## Description
 
-This project consists of several Python scripts designed to scrape data from the Discogs marketplace based on a user-defined configuration file (`.json`). The config specifies which records from your Discogs wantlist you want to track.
+This scraper consists of several Python scripts designed to scrape data from the Discogs marketplace based on a user-defined configuration file (`.json`). The config specifies which records from your Discogs wantlist you want to track.
 
 The scraper extracts and parses the following information for each listing:
 
@@ -28,19 +28,19 @@ After scraping and parsing, each record’s data is stored as a Python dictionar
 
 Each scraping cycle follows the same procedure. Listings that are already present in your MongoDB collection will **not** be re-inserted; instead, they will only be **updated** if the pricing has changed. Listings that exist in your MongoDB collection but are no longer available on the Discogs marketplace will be **deleted**.
 
-You yourself define queries for *Item Price*, *Shipping Price*, *Media Condition*, and *Sleeve Condition* that a listing must meet. If a listing matches your query conditions, you will receive a notification on Telegram.
+You yourself define queries for *Item Price*, *Shipping Price*, *Media Condition*, *Sleeve Condition* and optionally the *Seller Rating* that a listing must meet. If a listing matches your query conditions, you will receive a notification on Telegram.
 
-The project is designed to run anywhere with minimal installation. In fact, the only requirement is to have Docker installed on your local machine (see the **Prerequisites** section in *Getting Started*).
+The scraper is designed to run anywhere with minimal installation. In fact, the only requirement is to have Docker installed on your local machine (see the **Prerequisites** section in *Getting Started*).
 
 ## Getting Started
 
 ### Prerequisites
 
-- [Discogs Account](https://www.discogs.com/) & Wantlist with records to monitor
+- [Discogs User Token](https://www.discogs.com/) & Wantlist with records to monitor
 - [Docker](https://docs.docker.com/get-started/get-docker/)
-- [MongoDB Collection](https://www.mongodb.com/)
+- [MongoDB with collections](https://www.mongodb.com/)
 - [Telegram-Bot](https://core.telegram.org/bots/api)
-- [FXRatesAPI Account](https://fxratesapi.com/)
+- [FXRatesAPI Token](https://fxratesapi.com/)
 
 ### Dependencies
 
@@ -66,25 +66,25 @@ Download and install [Docker](https://docs.docker.com/get-started/get-docker/)
 
 #### Environment Variables
 
-Before running the program, ensure that a `.env` file is created in the root directory of the project. This file should contain the following environment variables:
+Before running the scraper, ensure that a `.env` file is created in the root directory of the project. This file should contain the following environment variables:
 
 ```.env
-DISCOGS_USER_TOKEN=
-MONGODB_URI=
-MONGODB_NAME=
-MONGODB_COLLECTION_LISTINGS=
-MONGODB_COLLECTION_MESSAGES=
+CURRENCY=
 DISCOGS_USERNAME=
-DISCOGS_PASSWORD=
+DISCOGS_USER_TOKEN=
 FXRATES_API_TOKEN=
 TELEGRAM_API_TOKEN=
 TELEGRAM_CHAT_ID=
 TELEGRAM_CHAT_URL=
+MONGODB_NAME=
+MONGODB_URI=
+MONGODB_COLLECTION_LISTINGS=
+MONGODB_COLLECTION_MESSAGES=
 ```
 
 #### Records to track config
 
-In the */src/config* directory, locate the file named `wantlist_filter_config.json`.
+In the */src/config* directory, locate the file named `monitoring_list.json`.
 
 Replace the sample entries with the records from your wantlist that you want to monitor. Use the following JSON structure:
 
@@ -106,18 +106,7 @@ You can find the required information (artist, title, year, format) on the relea
 #### MongoDB queries
 
 In the */src/mongodb* directory, you will find a file named `queries.py`.
-This file contains the query definition your MongoDB collection.
-
-```python
-def get_queries():
-    return {
-        # Replace 'your_query_name' with the name of your query (only for informative purpose)
-        # Replace record_name, item_price_in_your_currency and shipping_price_in_your_currency with actual variables or values
-        'your_query_name': create_query('record_name', item_price_in_your_currency, shipping_price_in_your_currency)
-    }
-```
-
-‼️Make sure that `record_name` accurately matches the name on Discogs
+This file contains instructions how to set up the query definition for your MongoDB collection.
 
 ### Executing program
 
@@ -134,13 +123,13 @@ Follow these steps to get started:
 2. Build Docker Image
 
     ```bash
-    docker build -t discoring .
+    docker build -t discoring:latest .
     ```
 
-3. Run Container
+3. Run Container (add or remove flags as needed)
 
     ```bash
-    docker run --name container-name -d discoring
+    docker run -d --name container-name discoring
     ```
 
 ## Found an issue?
