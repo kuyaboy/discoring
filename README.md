@@ -30,7 +30,7 @@ Each scraping cycle follows the same procedure. Listings that are already presen
 
 You yourself define queries for *Item Price*, *Shipping Price*, *Media Condition*, *Sleeve Condition* and optionally the *Seller Rating* that a listing must meet. If a listing matches your query conditions, you will receive a notification on Telegram.
 
-The scraper is designed to run anywhere with minimal installation. In fact, the only requirement is to have Docker installed on your local machine (see the **Prerequisites** section in *Getting Started*).
+The scraper is designed to run anywhere with minimal installation. In fact, the only installation-requirement is Docker on your local machine (see the **Prerequisites** section in *Getting Started*).
 
 ## Getting Started
 
@@ -39,7 +39,7 @@ The scraper is designed to run anywhere with minimal installation. In fact, the 
 - [Discogs User Token](https://www.discogs.com/) & Wantlist with records to monitor
 - [Docker](https://docs.docker.com/get-started/get-docker/)
 - [MongoDB with collections](https://www.mongodb.com/)
-- [Telegram-Bot](https://core.telegram.org/bots/api)
+- [Telegram API Token](https://core.telegram.org/bots/api)
 - [FXRatesAPI Token](https://fxratesapi.com/)
 
 ### Dependencies
@@ -82,6 +82,12 @@ MONGODB_COLLECTION_LISTINGS=
 MONGODB_COLLECTION_MESSAGES=
 ```
 
+ℹ️ The `TELEGRAM_CHAT_URL` is built as followed:
+
+```url
+ https://api.telegram.org/<TELEGRAM_API_TOKEN>/sendMessage?chat_id=<TELEGRAM_CHAT_ID>&text=
+```
+
 #### Records to track config
 
 In the */src/config* directory, locate the file named `monitoring_list.json`.
@@ -94,7 +100,7 @@ Replace the sample entries with the records from your wantlist that you want to 
         "artist": "Artist Name",
         "title": "Record Title",
         "year": 2000,
-        "format": "Vinyl" # or CD/Cassette etc.
+        "format": "Vinyl"
     }
 ]
 ```
@@ -129,7 +135,7 @@ Follow these steps to get started:
 3. Run Container (add or remove flags as needed)
 
     ```bash
-    docker run -d --name container-name discoring
+    docker run -d --name <container-name> discoring:latest
     ```
 
 ## Found an issue?
