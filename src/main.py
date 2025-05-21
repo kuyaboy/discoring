@@ -1,4 +1,5 @@
 #!/opt/venv/bin/python3
+import os
 import time
 import random
 from dotenv import load_dotenv
@@ -6,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from logger import get_logger
-from scripts.convert_currency import convert_price_to_chf
+from scripts.convert_currency import convert_price_to_currency
 from scripts.convert_discogs_xml import convert_discogs_html_to_xml
 from scripts.convert_xml_to_dict import convert_wantlist_xml_to_dict
 from scripts.delete_documents import delete_orphaned_documents
@@ -19,6 +20,8 @@ def run_cycle():
     logger.info('Starting the scraping cycle.')
     start_time = time.time()
 
+    currency_upper = os.getenv('CURRENCY').upper()
+
     logger.debug('Converting scraped Discogs HTML to XML.')
     convert_discogs_html_to_xml()
     logger.info('Successfully converted Discogs HTML to XML.')
@@ -27,9 +30,9 @@ def run_cycle():
     convert_wantlist_xml_to_dict()
     logger.info('Successfully converted wantlist XML to dictionary.')
 
-    logger.debug('Converting prices to CHF.')
-    convert_price_to_chf()
-    logger.info('Successfully converted prices to CHF.')
+    logger.debug(f'Converting item prices to {currency_upper}.')
+    convert_price_to_currency()
+    logger.info(f'Successfully converted prices to {currency_upper}.')
 
     logger.debug('Updating listings in MongoDB.')
     update_listings_in_mongodb()
