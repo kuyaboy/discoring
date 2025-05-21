@@ -4,7 +4,7 @@ import json
 import regex as re
 
 
-def convert_price_to_chf():
+def convert_price_to_currency():
 
     listings_directory = os.path.join(
         os.getcwd(), 'src', 'data', 'listings_json')
@@ -43,4 +43,4 @@ def convert_price_to_chf():
 
 
 if __name__ == "__main__":
-    convert_price_to_chf()
+    convert_price_to_currency()
