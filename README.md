@@ -82,6 +82,8 @@ MONGODB_COLLECTION_LISTINGS=
 MONGODB_COLLECTION_MESSAGES=
 ```
 
+ℹ️ `CURRENCY` refers to the abbreviation of your preferred currency (e.g., *usd* for US Dollars).
+
 ℹ️ The `TELEGRAM_CHAT_URL` is built as followed:
 
 ```url
