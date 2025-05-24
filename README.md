@@ -39,7 +39,7 @@ The scraper is designed to run anywhere with minimal installation. In fact, the 
 - [Discogs User Token](https://www.discogs.com/) & Wantlist with records to monitor
 - [Docker](https://docs.docker.com/get-started/get-docker/)
 - [FXRatesAPI Token](https://fxratesapi.com/)
-- [MongoDB with collections](https://www.mongodb.com/)
+- [MongoDB with two collections](https://www.mongodb.com/)
 - [Telegram API Token](https://core.telegram.org/bots/api)
 - [WSL](https://learn.microsoft.com/en-us/windows/wsl/install) is optional (on Windows use Git Bash Terminal **with LF line endings**)
 
