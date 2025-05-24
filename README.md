@@ -144,10 +144,10 @@ Follow these steps to get started after you have all the necessary installations
     docker build -t discoring:latest .
     ```
 
-4. Run Container (add or remove flags as needed)
+4. Run Container (add or remove flags as needed, --rm is recommended though)
 
     ```bash
-    docker run -d --name <container-name> discoring:latest
+    docker run -d --name <container-name> --rm discoring:latest
     ```
 
 ## Found an issue?
