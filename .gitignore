@@ -1,5 +1,11 @@
 .env
+
 __pycache__
-/venv
+
+/src/config/monitoring_list.json
+/src/config/queries.json
+
 /src/config/exchange_rates.json
 /src/data/
+
+/venv

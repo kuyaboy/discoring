@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/bash
 
 echo "Starting Xvfb..."
 su seluser -c "Xvfb :99 -ac 2>/dev/null &"

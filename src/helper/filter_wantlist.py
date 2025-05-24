@@ -22,8 +22,8 @@ def wantlist_filter():
         artists = [artist.get("name", "") for artist in info.get("artists", [])]
 
         for f in filter_config:
-            f_artist = f.get("artist", "").lower()
-            f_title = f.get("title", "").lower()
+            f_artist = f.get("artist_name", "").lower()
+            f_title = f.get("record_name", "").lower()
             f_year = f.get("year")
             f_format = f.get("format", "").lower()
 

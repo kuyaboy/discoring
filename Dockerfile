@@ -41,4 +41,4 @@ COPY docker-entrypoint.sh /app/docker-entrypoint.sh
 RUN chmod +x /app/docker-entrypoint.sh
 
 # run docker-entrypoint shell script
-CMD ["bash", "-c", "/app/docker-entrypoint.sh && tail -f /dev/null"]
+CMD ["/usr/bin/bash", "-c", "/app/docker-entrypoint.sh && tail -f /dev/null"]

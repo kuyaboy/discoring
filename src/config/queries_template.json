@@ -1,0 +1,37 @@
+[
+  {
+    "my_custom_query": {
+      "artist_name": "Example Artist",
+      "record_name": "Example Record",
+      "item_price_currency": 100,
+      "shipping_price_currency": 50,
+      "media_condition": [
+        "Mint (M)",
+        "Near Mint (NM or M-)",
+        "Very Good Plus (VG+)",
+        "Very Good (VG)",
+        "Good Plus (G+)",
+        "Good (G)",
+        "Fair (F)",
+        "Poor (P)",
+        "Generic",
+        "Not Graded",
+        "No Cover"
+      ],
+      "sleeve_condition": [
+        "Mint (M)",
+        "Near Mint (NM or M-)",
+        "Very Good Plus (VG+)",
+        "Very Good (VG)",
+        "Good Plus (G+)",
+        "Good (G)",
+        "Fair (F)",
+        "Poor (P)",
+        "Generic",
+        "Not Graded",
+        "No Cover"
+      ],
+      "seller_rating": 95
+    }
+  }
+]

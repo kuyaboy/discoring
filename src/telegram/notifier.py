@@ -2,7 +2,7 @@ import os
 import requests
 import urllib
 from src.mongodb.database import Database
-from src.mongodb.queries import get_queries
+from src.mongodb.queries import get_queries_from_config
 
 
 from logger import get_logger
@@ -19,7 +19,7 @@ def check_and_notify():
     currency_upper = currency.upper()
     sell_item_url = 'https://www.discogs.com/sell/item/'
 
-    queries = get_queries()
+    queries = get_queries_from_config()
     query_results = []
 
     for query in queries.values():
@@ -28,8 +28,9 @@ def check_and_notify():
         query_results.extend(results_list)
 
     if query_results:
-        for listing_id, record_name, item_price, seller_name, seller_rating, shipping_price, shipping_origin, media_condition, sleeve_condition in zip(
+        for listing_id, artist_name, record_name, item_price, seller_name, seller_rating, shipping_price, shipping_origin, media_condition, sleeve_condition in zip(
                 [result['listing_id'] for result in query_results],
+                [result['artist'] for result in query_results],
                 [result['record_name'] for result in query_results],
                 [result[f'item_price_{currency}'] for result in query_results],
                 [result['seller_name'] for result in query_results],
@@ -42,6 +43,7 @@ def check_and_notify():
 
             text = f"""🚨🚨🚨*!!!ALERT!!!*🚨🚨🚨
 
+*Artist Name:* {artist_name}
 *Record Name:* {record_name}
 *Seller Name:* {seller_name}
 *Seller Rating (%):* {seller_rating}
