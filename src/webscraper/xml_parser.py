@@ -2,6 +2,7 @@ import os
 import regex as re
 
 from helper.filter_duplicate_prices import filter_unique_prices
+from helper.determine_float import is_float
 
 
 class xmlParser:
@@ -161,8 +162,13 @@ class xmlParser:
 
         seller_matches = re.findall(combined_seller_rating_pattern, xml_file, re.DOTALL)
         seller_rating = [match[0] if match[0] else match[1] for match in seller_matches]
+        no_entry = []
 
-        return [float(rating) for rating in seller_rating] if seller_rating else ["NaN"]
+        if seller_rating:
+            return [float(rating) if is_float(rating) else float("NaN") for rating in seller_rating]
+        else:
+            no_entry.append("NaN")
+            return no_entry
 
     def get_shipping_origin(self, file_name):
         xml_file = self.load_xml_file(file_name)
