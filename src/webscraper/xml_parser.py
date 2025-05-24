@@ -1,4 +1,5 @@
 import os
+import html
 import regex as re
 
 from helper.filter_duplicate_prices import filter_unique_prices
@@ -48,7 +49,7 @@ class xmlParser:
 
         artist_name_pattern = r'<td class="item_description">.*?<a href="/sell/item/\d+"[^>]*>(.*?) - (.*?) \(.*?\)<\/a>'
         artist_matches = re.findall(artist_name_pattern, xml_file, re.DOTALL)
-        artist_names = [match[0].strip() for match in artist_matches]
+        artist_names = [html.unescape(match[0].strip()) for match in artist_matches]
         no_entry = []
 
         if artist_names:
@@ -62,7 +63,7 @@ class xmlParser:
 
         record_name_pattern = r'<td class="item_description">.*?<a href="/sell/item/\d+"[^>]*>(.*?) - (.*?) \(.*?\)<\/a>'
         record_matches = re.findall(record_name_pattern, xml_file, re.DOTALL)
-        record_names = [match[1].strip() for match in record_matches]
+        record_names = [html.unescape(match[1].strip()) for match in record_matches]
         no_entry = []
 
         if record_names:
