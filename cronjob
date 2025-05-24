@@ -1,2 +1,3 @@
-0 12 * * * /app/bin/sync_rates.sh
 0 0 * * 1 /app/bin/empty_collection.py
+0 12 * * 1 /app/bin/notify_heartbeat.sh
+0 12 * * * /app/bin/sync_rates.sh
