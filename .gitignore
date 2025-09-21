@@ -8,4 +8,4 @@ __pycache__
 /src/config/exchange_rates.json
 /src/data/
 
-/venv
+.python-version
